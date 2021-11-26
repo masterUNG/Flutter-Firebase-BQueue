@@ -2,6 +2,7 @@ import 'dart:ui';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_beng_queue_app/model/queue_model.dart';
 import 'package:flutter_application_beng_queue_app/model/restaurant_model.dart';
@@ -21,7 +22,7 @@ class AddQueueUser extends StatefulWidget {
 }
 
 class _AddQueueUserState extends State<AddQueueUser> {
-  String uidRes, typeTable, nameLogin, uidUser, date, time, peopleAmount;
+  String uidRes, typeTable, nameLogin, uidUser, date, time, peopleAmount, token;
 
   bool statusHaveData = true;
   bool statusNoData = true;
@@ -50,6 +51,7 @@ class _AddQueueUserState extends State<AddQueueUser> {
     dateFormat = new DateFormat.yMd();
     timeFormat = new DateFormat.Hms();
     initializeDateFormatting();
+    findToken();
   }
 
   Future<Null> readDataUidLogin() async {
@@ -78,6 +80,13 @@ class _AddQueueUserState extends State<AddQueueUser> {
         );
       },
     );
+  }
+
+  Future<Null> findToken() async {
+    FirebaseMessaging.instance.getToken().then((value) {
+      token = value;
+      print('############Token is $token ###############');
+    });
   }
 
   @override
@@ -147,7 +156,8 @@ class _AddQueueUserState extends State<AddQueueUser> {
   }
 
   Container showCardRestaurant(BuildContext context) {
-    return Container(margin: EdgeInsets.only(top: 15),
+    return Container(
+      margin: EdgeInsets.only(top: 15),
       padding: EdgeInsets.all(10),
       height: 200,
       child: Card(
@@ -255,7 +265,10 @@ class _AddQueueUserState extends State<AddQueueUser> {
   Widget showTextNumberOfPeople() => Row(
         children: [
           Container(
-            margin: EdgeInsets.only(left: 25,top: 15,),
+            margin: EdgeInsets.only(
+              left: 25,
+              top: 15,
+            ),
             child: Text(
               'Please enter your number of people',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
