@@ -55,6 +55,7 @@ class _AccountUserState extends State<AccountUser> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.red,
       body: userModel == null
           ? MyStyle().showProgress()
           : SingleChildScrollView(
@@ -68,35 +69,62 @@ class _AccountUserState extends State<AccountUser> {
                           onPressed: () => Navigator.pop(context),
                           icon: Icon(Icons.close),
                           iconSize: 40,
-                          color: Colors.red,
+                          color: Colors.white,
                         ),
                         Container(
-                          margin: EdgeInsets.only(left: 100),
+                          margin: EdgeInsets.only(left: 110),
                           child: Text(
                             'Profile',
                             style: TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.w600),
+                                fontSize: 20, fontWeight: FontWeight.w600,color: Colors.white),
                           ),
                         ),
                       ],
                     ),
                   ),
                   showImage(),
-                  editName(),
-                  showEmailUser(),
-                  editPassword(),
-                  showTextAboutTheApplication(),
-                  signOut(),
+                  Container(
+                    height: MediaQuery.of(context).size.width * 1.34,
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(50),
+                          topRight: Radius.circular(50),
+                        )),
+                    child: Column(
+                      children: [
+                        editName(),
+                        divider(),
+                        showEmailUser(),
+                        divider(),
+                        editPassword(),
+                        divider(),
+                        showTextAboutTheApplication(),
+                        divider(),
+                        signOut(),
+                      ],
+                    ),
+                  )
                 ],
               ),
             ),
     );
   }
 
+  Divider divider() {
+    return Divider(
+      height: 20,
+      thickness: 1,
+      indent: 20,
+      endIndent: 20,
+      color: Colors.black26,
+    );
+  }
+
   Widget signOut() {
     return Container(
       width: MediaQuery.of(context).size.width * 0.9,
-      margin: EdgeInsets.only(left: 30, right: 40),
+      margin: EdgeInsets.only(left: 10, right: 20),
       child: ListTile(
         onTap: () async {
           await Firebase.initializeApp().then((value) async {
@@ -112,11 +140,11 @@ class _AccountUserState extends State<AccountUser> {
         },
         trailing: Icon(
           Icons.exit_to_app_outlined,
-          color: Colors.black,
+          color: Colors.red,
         ),
         title: Text(
           'Sign Out',
-          style: TextStyle(fontSize: 18),
+          style: TextStyle(fontSize: 18,color: Colors.red),
         ),
       ),
     );
@@ -125,14 +153,14 @@ class _AccountUserState extends State<AccountUser> {
   Widget showTextAboutTheApplication() {
     return Container(
       width: MediaQuery.of(context).size.width * 0.9,
-      margin: EdgeInsets.only(left: 30, right: 40),
+      margin: EdgeInsets.only(left: 10, right: 20),
       child: ListTile(
         onTap: () {
           normalDialog(context, 'Version 1.0.0');
         },
         trailing: Icon(
           Icons.arrow_forward_ios_rounded,
-          color: Colors.black,
+          color: Colors.red,
         ),
         title: Text(
           'About the application',
@@ -145,7 +173,7 @@ class _AccountUserState extends State<AccountUser> {
   Widget editPassword() {
     return Container(
       width: MediaQuery.of(context).size.width * 0.9,
-      margin: EdgeInsets.only(left: 30, right: 40),
+      margin: EdgeInsets.only(left: 10, right: 20),
       child: ListTile(
         onTap: () {
           if (password == null) {
@@ -160,12 +188,13 @@ class _AccountUserState extends State<AccountUser> {
             );
           }
         },
+        leading: Icon(Icons.password_outlined,size: 30,color: Colors.red,),
         trailing: Icon(
           Icons.arrow_forward_ios_rounded,
-          color: Colors.black,
+          color: Colors.red,
         ),
         title: Text(
-          'Password : *********',
+          '*********',
           style: TextStyle(fontSize: 18),
         ),
       ),
@@ -175,17 +204,18 @@ class _AccountUserState extends State<AccountUser> {
   Widget showEmailUser() {
     return Container(
       width: MediaQuery.of(context).size.width * 0.9,
-      margin: EdgeInsets.only(left: 30, right: 40),
+      margin: EdgeInsets.only(left: 10, right: 20),
       child: ListTile(
         onTap: () {
           normalDialog(context, email);
         },
+        leading: Icon(Icons.email_rounded,size: 30,color: Colors.red,),
         trailing: Icon(
           Icons.arrow_forward_ios_rounded,
-          color: Colors.black,
+          color: Colors.red
         ),
         title: Text(
-          'Email : $email',
+          email,
           style: TextStyle(fontSize: 18),
         ),
       ),
@@ -195,8 +225,9 @@ class _AccountUserState extends State<AccountUser> {
   Widget editName() {
     return Container(
       width: MediaQuery.of(context).size.width * 0.9,
-      margin: EdgeInsets.only(left: 30, right: 40),
+      margin: EdgeInsets.only(left: 10, right: 20, top: 20),
       child: ListTile(
+        leading: Icon(Icons.person,size: 30,color: Colors.red,),
         onTap: () {
           Navigator.push(
             context,
@@ -207,12 +238,12 @@ class _AccountUserState extends State<AccountUser> {
         },
         trailing: Icon(
           Icons.arrow_forward_ios_rounded,
-          color: Colors.black,
+          color: Colors.red,
         ),
         title: Row(
           children: [
             Text(
-              'Name : $nameLogin',
+              nameLogin,
               style: TextStyle(fontSize: 18),
             ),
           ],
