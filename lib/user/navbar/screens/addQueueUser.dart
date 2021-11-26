@@ -363,8 +363,7 @@ class _AddQueueUserState extends State<AddQueueUser> {
           } else {
             adddQueueAmount();
             // addReceeiveQueue();
-            // Navigator.pop(context);
-
+            Navigator.pop(context);
           }
         },
         child: Text(
