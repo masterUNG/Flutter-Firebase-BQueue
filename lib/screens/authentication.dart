@@ -4,11 +4,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_beng_queue_app/model/user_model.dart';
-import 'package:flutter_application_beng_queue_app/restaurant/index_restaurant_nav.dart';
-import 'package:flutter_application_beng_queue_app/user/indexUserNav.dart';
+import 'package:flutter_application_beng_queue_app/screens/restaurant/index_restaurant_nav.dart';
+import 'package:flutter_application_beng_queue_app/screens/user/indexUserNav.dart';
 import 'package:flutter_application_beng_queue_app/screens/register.dart';
 import 'package:flutter_application_beng_queue_app/utility/dialog.dart';
-import 'package:flutter_application_beng_queue_app/utility/my_style.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 

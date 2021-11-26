@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_beng_queue_app/restaurant/navbar/screens/add_restaurant.dart';
 import 'package:flutter_application_beng_queue_app/screens/authentication.dart';
 
 main() => runApp(MyApp());

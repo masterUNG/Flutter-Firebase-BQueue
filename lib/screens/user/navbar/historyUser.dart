@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_beng_queue_app/user/navbar/screens/listHistoryUser.dart';
-import 'package:flutter_application_beng_queue_app/user/navbar/screens/listQueueUser.dart';
+import 'package:flutter_application_beng_queue_app/screens/user/navbar/screens/listHistoryUser.dart';
+import 'package:flutter_application_beng_queue_app/screens/user/navbar/screens/listQueueUser.dart';
+
 
 class HistoryUser extends StatefulWidget {
   @override

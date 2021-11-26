@@ -4,7 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_beng_queue_app/model/restaurant_model.dart';
 import 'package:flutter_application_beng_queue_app/model/user_model.dart';
-import 'package:flutter_application_beng_queue_app/restaurant/navbar/screens/add_restaurant.dart';
+import 'package:flutter_application_beng_queue_app/screens/restaurant/navbar/screens/add_restaurant.dart';
 import 'package:flutter_application_beng_queue_app/utility/my_style.dart';
 
 class StoreRestaurant extends StatefulWidget {

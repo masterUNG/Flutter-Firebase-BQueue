@@ -1,29 +1,27 @@
 import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_beng_queue_app/model/restaurant_model.dart';
 import 'package:flutter_application_beng_queue_app/model/user_model.dart';
-import 'package:flutter_application_beng_queue_app/restaurant/navbar/screens/edit_restaurant.dart';
 import 'package:flutter_application_beng_queue_app/screens/authentication.dart';
-import 'package:flutter_application_beng_queue_app/user/navbar/screens/editNameAndLastnameUser.dart';
-import 'package:flutter_application_beng_queue_app/user/navbar/screens/editPasswordUser.dart';
-import 'package:flutter_application_beng_queue_app/user/navbar/screens/editPhotoProfileUser.dart';
+import 'package:flutter_application_beng_queue_app/screens/user/navbar/screens/editNameAndLastnameUser.dart';
+import 'package:flutter_application_beng_queue_app/screens/user/navbar/screens/editPasswordUser.dart';
+import 'package:flutter_application_beng_queue_app/screens/user/navbar/screens/editPhotoProfileUser.dart';
 import 'package:flutter_application_beng_queue_app/utility/dialog.dart';
 import 'package:flutter_application_beng_queue_app/utility/my_style.dart';
 import 'package:image_picker/image_picker.dart';
 
-class AccountRestaurant extends StatefulWidget {
+class AccountUser extends StatefulWidget {
   @override
-  _AccountRestaurantState createState() => _AccountRestaurantState();
+  _AccountUserState createState() => _AccountUserState();
 }
 
-class _AccountRestaurantState extends State<AccountRestaurant> {
-  File file;
-  String imageUsser, email, password, nameLogin, lastName, imageProfile;
+class _AccountUserState extends State<AccountUser> {
   UserModel userModel;
-  RestaurantModel restaurantModel;
+  File file;
+  String imageUsser, email, password, nameLogin, lastName;
 
   @override
   void initState() {
@@ -32,49 +30,26 @@ class _AccountRestaurantState extends State<AccountRestaurant> {
   }
 
   Future<Null> readUidLogin() async {
-    await Firebase.initializeApp().then(
-      (value) async {
-        await FirebaseAuth.instance.authStateChanges().listen(
-          (event) async {
-            String uid = event.uid;
-            // print('Uid = $uid');
-            await FirebaseFirestore.instance
-                .collection('userTable')
-                .doc(uid)
-                .snapshots()
-                .listen(
-              (event) async {
-                setState(
-                  () {
-                    userModel = UserModel.fromMap(event.data());
-                    String nameLogin = userModel.name;
-                    // print('NameLogin ====>>>> $nameLogin');
-                  },
-                );
-                nameLogin = userModel.name;
-                imageUsser = userModel.imageProfile;
-                password = userModel.password;
-                email = userModel.email;
-              },
-            );
-            await FirebaseFirestore.instance
-                .collection('restaurantTable')
-                .doc(uid)
-                .snapshots()
-                .listen(
-              (event) {
-                setState(() {
-                  restaurantModel = RestaurantModel.fromMap(
-                    event.data(),
-                  );
-                  // print(restaurantModel);
-                });
-              },
-            );
-          },
-        );
-      },
-    );
+    await Firebase.initializeApp().then((value) async {
+      await FirebaseAuth.instance.authStateChanges().listen((event) async {
+        String uid = event.uid;
+        await FirebaseFirestore.instance
+            .collection('userTable')
+            .doc(uid)
+            .snapshots()
+            .listen((event) {
+          setState(() {
+            userModel = UserModel.fromMap(event.data());
+          });
+          nameLogin = userModel.name;
+          imageUsser = userModel.imageProfile;
+          password = userModel.password;
+          email = userModel.email;
+
+          // print('NameLogin ====>>>> $nameLogin');
+        });
+      });
+    });
   }
 
   @override
@@ -110,7 +85,6 @@ class _AccountRestaurantState extends State<AccountRestaurant> {
                   editName(),
                   showEmailUser(),
                   editPassword(),
-                  editRestaurant(),
                   showTextAboutTheApplication(),
                   signOut(),
                 ],
@@ -235,30 +209,14 @@ class _AccountRestaurantState extends State<AccountRestaurant> {
           Icons.arrow_forward_ios_rounded,
           color: Colors.black,
         ),
-        title: Container(
-          child: Text(
-            'Name : $nameLogin',
-            style: TextStyle(fontSize: 18),
-          ),
+        title: Row(
+          children: [
+            Text(
+              'Name : $nameLogin',
+              style: TextStyle(fontSize: 18),
+            ),
+          ],
         ),
-      ),
-    );
-  }
-
-  Widget imageButton() {
-    return Container(
-      margin: EdgeInsets.only(top: 30),
-      child: IconButton(
-        icon: userModel == null
-            ? Image.asset(
-                'images/logo.png',
-                fit: BoxFit.cover,
-              )
-            : Image.network(userModel.imageProfile),
-        iconSize: 70,
-        onPressed: () {
-          chooseImage(ImageSource.gallery);
-        },
       ),
     );
   }
@@ -311,58 +269,14 @@ class _AccountRestaurantState extends State<AccountRestaurant> {
 
   Future<Null> chooseImage(ImageSource imageSource) async {
     try {
-      var object = await ImagePicker().getImage(
+      var objict = await ImagePicker().getImage(
         source: imageSource,
-        maxHeight: 500.0,
-        maxWidth: 500.0,
+        maxHeight: 500,
+        maxWidth: 500,
       );
-      setState(
-        () {
-          file = File(object.path);
-        },
-      );
+      setState(() {
+        file = File(objict.path);
+      });
     } catch (e) {}
-  }
-
-  Widget showName() {
-    return Container(
-      margin: EdgeInsets.only(top: 5),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            userModel.name,
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget editRestaurant() {
-    return Container(
-      margin: EdgeInsets.only(left: 30, right: 40),
-      child: ListTile(
-        onTap: () => restaurantModel == null
-            ? normalDialog(context, "You don't have restaurant data")
-            : Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => EditRestaurant(),
-                ),
-              ),
-        trailing: Icon(
-          Icons.arrow_forward_ios_rounded,
-          color: Colors.black,
-        ),
-        title: Text(
-          'EditReataurantData',
-          style: TextStyle(fontSize: 18),
-        ),
-      ),
-    );
   }
 }

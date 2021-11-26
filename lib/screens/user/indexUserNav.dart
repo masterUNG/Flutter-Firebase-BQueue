@@ -3,10 +3,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_beng_queue_app/model/user_model.dart';
-import 'package:flutter_application_beng_queue_app/user/accountUser.dart';
-import 'package:flutter_application_beng_queue_app/user/navbar/historyUser.dart';
-import 'package:flutter_application_beng_queue_app/user/navbar/qrCodeUser.dart';
-import 'package:flutter_application_beng_queue_app/user/navbar/storeUser.dart';
+import 'package:flutter_application_beng_queue_app/screens/user/accountUser.dart';
+import 'package:flutter_application_beng_queue_app/screens/user/navbar/historyUser.dart';
+import 'package:flutter_application_beng_queue_app/screens/user/navbar/qrCodeUser.dart';
+import 'package:flutter_application_beng_queue_app/screens/user/navbar/storeUser.dart';
 import 'package:flutter_application_beng_queue_app/utility/my_style.dart';
 
 class UserNVA extends StatefulWidget {
