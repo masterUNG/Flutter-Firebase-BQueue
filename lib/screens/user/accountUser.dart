@@ -76,7 +76,9 @@ class _AccountUserState extends State<AccountUser> {
                           child: Text(
                             'Profile',
                             style: TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.w600,color: Colors.white),
+                                fontSize: 20,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.white),
                           ),
                         ),
                       ],
@@ -86,11 +88,12 @@ class _AccountUserState extends State<AccountUser> {
                   Container(
                     height: MediaQuery.of(context).size.width * 1.34,
                     decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(50),
-                          topRight: Radius.circular(50),
-                        )),
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(50),
+                        topRight: Radius.circular(50),
+                      ),
+                    ),
                     child: Column(
                       children: [
                         editName(),
@@ -144,7 +147,7 @@ class _AccountUserState extends State<AccountUser> {
         ),
         title: Text(
           'Sign Out',
-          style: TextStyle(fontSize: 18,color: Colors.red),
+          style: TextStyle(fontSize: 18, color: Colors.red),
         ),
       ),
     );
@@ -188,7 +191,11 @@ class _AccountUserState extends State<AccountUser> {
             );
           }
         },
-        leading: Icon(Icons.password_outlined,size: 30,color: Colors.red,),
+        leading: Icon(
+          Icons.password_outlined,
+          size: 30,
+          color: Colors.red,
+        ),
         trailing: Icon(
           Icons.arrow_forward_ios_rounded,
           color: Colors.red,
@@ -209,11 +216,12 @@ class _AccountUserState extends State<AccountUser> {
         onTap: () {
           normalDialog(context, email);
         },
-        leading: Icon(Icons.email_rounded,size: 30,color: Colors.red,),
-        trailing: Icon(
-          Icons.arrow_forward_ios_rounded,
-          color: Colors.red
+        leading: Icon(
+          Icons.email_rounded,
+          size: 30,
+          color: Colors.red,
         ),
+        trailing: Icon(Icons.arrow_forward_ios_rounded, color: Colors.red),
         title: Text(
           email,
           style: TextStyle(fontSize: 18),
@@ -227,7 +235,11 @@ class _AccountUserState extends State<AccountUser> {
       width: MediaQuery.of(context).size.width * 0.9,
       margin: EdgeInsets.only(left: 10, right: 20, top: 20),
       child: ListTile(
-        leading: Icon(Icons.person,size: 30,color: Colors.red,),
+        leading: Icon(
+          Icons.person,
+          size: 30,
+          color: Colors.red,
+        ),
         onTap: () {
           Navigator.push(
             context,
