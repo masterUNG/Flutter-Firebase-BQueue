@@ -96,23 +96,19 @@ class _AccountRestaurantState extends State<AccountRestaurant> {
                           iconSize: 40,
                           color: Colors.white,
                         ),
-                        Container(
-                          margin: EdgeInsets.only(left: 110),
-                          child: Text(
-                            'Profile',
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
                       ],
                     ),
                   ),
+                  Text(
+                    'Profile',
+                    style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white),
+                  ),
                   showImage(),
                   Container(
-                    height: MediaQuery.of(context).size.width * 1.34,
+                    height: MediaQuery.of(context).size.width * 1.28,
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.only(
@@ -188,7 +184,12 @@ class _AccountRestaurantState extends State<AccountRestaurant> {
       child: ListTile(
         onTap: () {
           normalDialog(context, 'Version 1.0.0');
-        },leading: Icon(Icons.error_outline_outlined,size: 30, color: Colors.red,),
+        },
+        leading: Icon(
+          Icons.error_outline_outlined,
+          size: 30,
+          color: Colors.red,
+        ),
         trailing: Icon(
           Icons.arrow_forward_ios_rounded,
           color: Colors.red,

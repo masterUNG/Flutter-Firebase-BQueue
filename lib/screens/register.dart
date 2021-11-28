@@ -6,7 +6,6 @@ import 'package:flutter_application_beng_queue_app/model/user_model.dart';
 import 'package:flutter_application_beng_queue_app/screens/restaurant/index_restaurant_nav.dart';
 import 'package:flutter_application_beng_queue_app/screens/user/indexUserNav.dart';
 import 'package:flutter_application_beng_queue_app/utility/dialog.dart';
-import 'package:flutter_application_beng_queue_app/utility/my_style.dart';
 
 class RegisterApp extends StatefulWidget {
   @override
@@ -16,7 +15,7 @@ class RegisterApp extends StatefulWidget {
 class _RegisterAppState extends State<RegisterApp> {
   bool statusRedEye = true;
   bool statusRedEy = true;
-  String name, email, password, typeUser;
+  String name, email, password, conPassword, typeUser;
   double screens;
   String imageProfile =
       'https://firebasestorage.googleapis.com/v0/b/bengqueueproject2.appspot.com/o/Profile%2FDeflutProfile%2F1.png?alt=media&token=ca98b383-8791-477a-bf59-941f99091306';
@@ -83,12 +82,16 @@ class _RegisterAppState extends State<RegisterApp> {
           if ((name?.isEmpty ?? true) ||
               (email?.isEmpty ?? true) ||
               (password?.isEmpty ?? true)) {
-            print('Have Space');
             normalDialog(
                 context, 'Please enter your information ian all fields.');
           } else if (typeUser?.isEmpty ?? true) {
             normalDialog(context, 'Please your choose type user.');
-          } else {
+          } else if (conPassword?.isEmpty ??
+              true != password?.isEmpty ??
+              true) {
+            normalDialog(context, 'Password do not match');
+          }
+          {
             createAccountAndInsertInformation();
           }
         },
@@ -101,11 +104,10 @@ class _RegisterAppState extends State<RegisterApp> {
   }
 
   Future<Null> createAccountAndInsertInformation() async {
-    await Firebase.initializeApp().then(
-      (value) async {
-        print(
-          'Firebase InitializaApp Success ',
-        );
+    await Firebase.initializeApp().then((value) async {
+      if (conPassword?.isEmpty ?? true != password?.isEmpty ?? true) {
+        normalDialog(context, 'Password do not match');
+      } else {
         await FirebaseAuth.instance
             .createUserWithEmailAndPassword(email: email, password: password)
             .then(
@@ -157,8 +159,13 @@ class _RegisterAppState extends State<RegisterApp> {
         ).catchError(
           (onError) => normalDialog(context, onError.code),
         );
-      },
-    );
+      }
+    }
+        // print(
+        //   'Firebase InitializaApp Success ',
+        // );
+
+        );
   }
 
   Container methodTypeUser() {
@@ -349,7 +356,7 @@ class _RegisterAppState extends State<RegisterApp> {
         width: screens * 0.8,
         margin: EdgeInsets.only(top: 10),
         child: TextField(
-          onChanged: (value) => password = value.trim(),
+          onChanged: (value) => conPassword = value.trim(),
           obscureText: statusRedEy,
           decoration: InputDecoration(
             label: Text(

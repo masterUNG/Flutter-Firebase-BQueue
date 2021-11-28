@@ -66,8 +66,8 @@ class _EditNameAndLastnameUserState extends State<EditNameAndLastnameUser> {
         actions: [
           IconButton(
               onPressed: () {
-                if ((newName?.isEmpty == true)) {
-                  print('Please enter your name and lastname');
+                if (newName?.isEmpty ?? true) {
+                  normalDialog(context, 'Please enter your name and lastname');
                 } else {
                   upDateNameAndLastName();
                   Navigator.pop(context);

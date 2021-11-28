@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_beng_queue_app/model/queue_model.dart';
 import 'package:flutter_application_beng_queue_app/model/restaurant_model.dart';
 import 'package:flutter_application_beng_queue_app/model/user_model.dart';
+import 'package:flutter_application_beng_queue_app/screens/restaurant/navbar/screens/detailQueueForRest.dart';
+import 'package:flutter_application_beng_queue_app/utility/my_style.dart';
 
 class ListQueue extends StatefulWidget {
   @override
@@ -14,11 +16,12 @@ class ListQueue extends StatefulWidget {
 class _ListQueueState extends State<ListQueue> {
   RestaurantModel restaurantModel;
   UserModel userModel;
-  List<QueueModel> queueModel = [];
-  List<Widget> widgets = [];
+  List<QueueModel> queueModels = [];
+  List<String> uidRests = [];
+  bool statusLoad = true;
+  bool statusHaveData = true;
 
   String uidUser, uidRest, name, image, address, date, time, nameUser, nameRest;
-  int index;
 
   @override
   void initState() {
@@ -61,6 +64,10 @@ class _ListQueueState extends State<ListQueue> {
                 );
               },
             );
+            statusHaveData = true;
+            if (queueModels.length != null) {
+              queueModels.clear();
+            }
             await FirebaseFirestore.instance
                 .collection('restaurantTable')
                 .doc(uidRest)
@@ -69,29 +76,25 @@ class _ListQueueState extends State<ListQueue> {
                 .listen(
               (event) async {
                 setState(() {
+                  statusLoad = false;
+                });
+                int index = 0;
+                if (event.docs.length == 0) {
+                  setState(() {
+                    statusHaveData = false;
+                  });
+                } else {
                   for (var item in event.docs) {
-                    QueueModel queueModels = QueueModel.fromMap(
+                    String uidRest = item.id;
+                    uidRests.add(uidRest);
+                    QueueModel qModel = QueueModel.fromMap(
                       item.data(),
                     );
-                    queueModel.add(queueModels);
-
-                    // // setState(() {
-                    // //   widgets.add(listWidget(queueModels, index));
-                    // // });
-                    // index++;
-
-                    // for (var i = 1; i < event.docs.length; i++) {
-                    //   queueModels.hashCode.isEven.toString();
-
-                    //   i++;
-                    //   print(i);
-                    // }
-                    // print('QueueModel is ===>>> $queueModels');
-                    // print(queueModel);
-                    // print('#####  I ===>>> $queueModels #####');
+                    setState(() {
+                      queueModels.add(qModel);
+                    });
                   }
-                });
-                print(queueModel);
+                }
               },
             );
           },
@@ -103,25 +106,101 @@ class _ListQueueState extends State<ListQueue> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        // body: ListView.builder(
-        //   itemCount: queueModel.length,
-        //   itemBuilder: (context, index) => GestureDetector(
-        //     onTap: () {},
-        //     child: Container(
-        //       padding: EdgeInsets.all(5),
-        //       child: Card(
-        //         child: Column(
-        //           children: [
-        //             Text(nameUser),
-        //             Text(time),
-        //             Text(date),
-        //           ],
-        //         ),
-        //       ),
-        //     ),
-        //   ),
-        // ),
-        // body: listWidget(QueueModel(), index),
-        );
+        body: statusLoad
+            ? MyStyle().showProgress()
+            : statusHaveData
+                ? ListView.builder(
+                    itemCount: queueModels.length,
+                    itemBuilder: (context, index) => Container(
+                      height: 160,
+                      margin: EdgeInsets.only(right: 10, left: 10),
+                      child: Card(
+                        child: Row(
+                          children: [
+                            Container(
+                              width: 120,
+                              child: Image.asset('images/logo.png'),
+                            ),
+                            Container(
+                              width: MediaQuery.of(context).size.width * 0.58,
+                              child: Column(
+                                children: [
+                                  Row(
+                                    children: [
+                                      Container(
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.56,
+                                        margin: EdgeInsets.only(top: 5),
+                                        child: Text(
+                                            'You : ${queueModels[index].nameUser}'),
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      Container(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.56,
+                                          margin: EdgeInsets.only(
+                                            top: 5,
+                                          ),
+                                          child: Text(
+                                              'Table Type : ${queueModels[index].tableType}')),
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      Container(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.56,
+                                          margin: EdgeInsets.only(
+                                            top: 5,
+                                          ),
+                                          child: Text(
+                                              'Number Of People : ${queueModels[index].peopleAmount}')),
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      Container(
+                                        margin: EdgeInsets.only(
+                                          top: 5,
+                                        ),
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.56,
+                                        child: Text(
+                                            'Queue Number : ${queueModels[index].queueAmount}'),
+                                      ),
+                                    ],
+                                  ),
+                                  ElevatedButton(
+                                    onPressed: () {},
+                                    child: Text('SentNotification'),
+                                  )
+                                ],
+                              ),
+                            ),
+                            // IconButton(
+                            //   onPressed: () {},
+                            //   icon: Icon(
+                            //     Icons.ac_unit,
+                            //     color: Colors.red,
+                            //     size: 35,
+                            //   ),
+                            // ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  )
+                : Center(
+                    child: Text('No Queue'),
+                  ));
   }
 }

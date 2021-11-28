@@ -71,22 +71,19 @@ class _AccountUserState extends State<AccountUser> {
                           iconSize: 40,
                           color: Colors.white,
                         ),
-                        Container(
-                          margin: EdgeInsets.only(left: 110),
-                          child: Text(
-                            'Profile',
-                            style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w600,
-                                color: Colors.white),
-                          ),
-                        ),
                       ],
                     ),
                   ),
+                  Text(
+                    'Profile',
+                    style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white),
+                  ),
                   showImage(),
                   Container(
-                    height: MediaQuery.of(context).size.width * 1.34,
+                    height: MediaQuery.of(context).size.width * 1.28,
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.only(
@@ -161,6 +158,11 @@ class _AccountUserState extends State<AccountUser> {
         onTap: () {
           normalDialog(context, 'Version 1.0.0');
         },
+        leading: Icon(
+          Icons.error_outline_outlined,
+          color: Colors.red,
+          size: 30,
+        ),
         trailing: Icon(
           Icons.arrow_forward_ios_rounded,
           color: Colors.red,
