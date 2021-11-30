@@ -98,7 +98,7 @@ class _RestaurantNVAState extends State<RestaurantNVA> {
   }
 
   BottomNavigationBar bottomNavigationBar() => BottomNavigationBar(
-        selectedItemColor: Colors.white,
+        selectedItemColor: Colors.black,
         backgroundColor: Colors.red,
         unselectedItemColor: Colors.white,
         currentIndex: indexPage,

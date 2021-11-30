@@ -56,7 +56,7 @@ class _RegisterAppState extends State<RegisterApp> {
                 methodTypeRestaurant(),
                 emailForm(),
                 prasswordForm(),
-                // confrimPrasswordForm(),
+                confrimPrasswordForm(),
                 saveButton(),
               ],
             ),

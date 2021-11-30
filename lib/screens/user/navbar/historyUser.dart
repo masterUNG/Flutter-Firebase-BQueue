@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_beng_queue_app/screens/user/navbar/screens/listHistoryForUser.dart';
 import 'package:flutter_application_beng_queue_app/screens/user/navbar/screens/listQueueForUser.dart';
 
-
 class HistoryUser extends StatefulWidget {
   @override
   _HistoryUserState createState() => _HistoryUserState();
@@ -19,16 +18,26 @@ class _HistoryUserState extends State<HistoryUser> {
           body: Column(
             children: [
               Container(
+                decoration: BoxDecoration(
+                  // borderRadius: BorderRadius.only(
+                  //     bottomLeft: Radius.circular(30),
+                  //     bottomRight: Radius.circular(30)),
+                  color: Colors.red,
+                ),
                 child: TabBar(
-                  indicatorColor: Colors.redAccent,
-                  unselectedLabelColor: Colors.redAccent,
-                  labelColor: Colors.redAccent,
+                  indicatorColor: Colors.black,
+                  unselectedLabelColor: Colors.white,
+                  labelColor: Colors.black,
                   tabs: <Widget>[
                     Tab(
-                      icon: Icon(Icons.description_sharp),
+                      icon: Icon(
+                        Icons.description_sharp,
+                      ),
                     ),
                     Tab(
-                      icon: Icon(Icons.history_outlined),
+                      icon: Icon(
+                        Icons.history_outlined,
+                      ),
                     ),
                   ],
                 ),

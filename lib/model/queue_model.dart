@@ -8,24 +8,25 @@ class QueueModel {
   final String tableType;
   final String nameUser;
   final String uidUser;
+  final String uidRest;
   final int queueAmount;
   final bool queueStatus;
   final String tokenUser;
   final String urlImageRest;
   QueueModel({
-     this.nameRest,
-     this.date,
-     this.time,
-     this.peopleAmount,
-     this.tableType,
-     this.nameUser,
-     this.uidUser,
-     this.queueAmount,
-     this.queueStatus,
-     this.tokenUser,
-     this.urlImageRest,
+    this.nameRest,
+    this.date,
+    this.time,
+    this.peopleAmount,
+    this.tableType,
+    this.nameUser,
+    this.uidUser,
+    this.uidRest,
+    this.queueAmount,
+    this.queueStatus,
+    this.tokenUser,
+    this.urlImageRest,
   });
- 
 
   QueueModel copyWith({
     String nameRest,
@@ -35,6 +36,7 @@ class QueueModel {
     String tableType,
     String nameUser,
     String uidUser,
+    String uidRest,
     int queueAmount,
     bool queueStatus,
     String tokenUser,
@@ -48,6 +50,7 @@ class QueueModel {
       tableType: tableType ?? this.tableType,
       nameUser: nameUser ?? this.nameUser,
       uidUser: uidUser ?? this.uidUser,
+      uidRest: uidRest ?? this.uidRest,
       queueAmount: queueAmount ?? this.queueAmount,
       queueStatus: queueStatus ?? this.queueStatus,
       tokenUser: tokenUser ?? this.tokenUser,
@@ -64,6 +67,7 @@ class QueueModel {
       'tableType': tableType,
       'nameUser': nameUser,
       'uidUser': uidUser,
+      'uidRest': uidRest,
       'queueAmount': queueAmount,
       'queueStatus': queueStatus,
       'tokenUser': tokenUser,
@@ -80,6 +84,7 @@ class QueueModel {
       tableType: map['tableType'],
       nameUser: map['nameUser'],
       uidUser: map['uidUser'],
+      uidRest: map['uidRest'],
       queueAmount: map['queueAmount'],
       queueStatus: map['queueStatus'],
       tokenUser: map['tokenUser'],
@@ -89,43 +94,46 @@ class QueueModel {
 
   String toJson() => json.encode(toMap());
 
-  factory QueueModel.fromJson(String source) => QueueModel.fromMap(json.decode(source));
+  factory QueueModel.fromJson(String source) =>
+      QueueModel.fromMap(json.decode(source));
 
   @override
   String toString() {
-    return 'QueueModel(nameRest: $nameRest, date: $date, time: $time, peopleAmount: $peopleAmount, tableType: $tableType, nameUser: $nameUser, uidUser: $uidUser, queueAmount: $queueAmount, queueStatus: $queueStatus, tokenUser: $tokenUser, urlImageRest: $urlImageRest)';
+    return 'QueueModel(nameRest: $nameRest, date: $date, time: $time, peopleAmount: $peopleAmount, tableType: $tableType, nameUser: $nameUser, uidUser: $uidUser, uidRest: $uidRest, queueAmount: $queueAmount, queueStatus: $queueStatus, tokenUser: $tokenUser, urlImageRest: $urlImageRest)';
   }
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
-  
+
     return other is QueueModel &&
-      other.nameRest == nameRest &&
-      other.date == date &&
-      other.time == time &&
-      other.peopleAmount == peopleAmount &&
-      other.tableType == tableType &&
-      other.nameUser == nameUser &&
-      other.uidUser == uidUser &&
-      other.queueAmount == queueAmount &&
-      other.queueStatus == queueStatus &&
-      other.tokenUser == tokenUser &&
-      other.urlImageRest == urlImageRest;
+        other.nameRest == nameRest &&
+        other.date == date &&
+        other.time == time &&
+        other.peopleAmount == peopleAmount &&
+        other.tableType == tableType &&
+        other.nameUser == nameUser &&
+        other.uidUser == uidUser &&
+        other.uidRest == uidRest &&
+        other.queueAmount == queueAmount &&
+        other.queueStatus == queueStatus &&
+        other.tokenUser == tokenUser &&
+        other.urlImageRest == urlImageRest;
   }
 
   @override
   int get hashCode {
     return nameRest.hashCode ^
-      date.hashCode ^
-      time.hashCode ^
-      peopleAmount.hashCode ^
-      tableType.hashCode ^
-      nameUser.hashCode ^
-      uidUser.hashCode ^
-      queueAmount.hashCode ^
-      queueStatus.hashCode ^
-      tokenUser.hashCode ^
-      urlImageRest.hashCode;
+        date.hashCode ^
+        time.hashCode ^
+        peopleAmount.hashCode ^
+        tableType.hashCode ^
+        nameUser.hashCode ^
+        uidUser.hashCode ^
+        uidRest.hashCode ^
+        queueAmount.hashCode ^
+        queueStatus.hashCode ^
+        tokenUser.hashCode ^
+        urlImageRest.hashCode;
   }
 }

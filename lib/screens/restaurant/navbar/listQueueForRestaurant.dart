@@ -30,6 +30,20 @@ class _ListQueueForRestaurantState extends State<ListQueueForRestaurant> {
     // readDataRes();
     readUidLogin();
     readDataRes();
+    readQueueData();
+  }
+
+  Future<Null> readQueueData() async {
+    FirebaseFirestore.instance
+        .collection("restaurantQueueTable")
+        .get()
+        .then((querySnapshot) {
+      querySnapshot.docs.forEach((result) {
+        var data = result.data();
+        print("uidUser");
+        print(data["uidUser"]);
+      });
+    });
   }
 
   Future<Null> readDataRes() async {
@@ -119,7 +133,7 @@ class _ListQueueForRestaurantState extends State<ListQueueForRestaurant> {
                   itemBuilder: (context, index) => Container(
                     height: 160,
                     margin: EdgeInsets.only(right: 10, left: 10),
-                    child:Card(
+                    child: Card(
                       shadowColor: Colors.red,
                       child: Row(
                         children: [
@@ -190,6 +204,7 @@ class _ListQueueForRestaurantState extends State<ListQueueForRestaurant> {
                               ],
                             ),
                           ),
+
                           // IconButton(
                           //   onPressed: () {},
                           //   icon: Icon(

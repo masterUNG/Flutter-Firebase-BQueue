@@ -31,7 +31,7 @@ class _AddQueueUserState extends State<AddQueueUser> {
   // Model
   RestaurantModel restaurantModel;
   UserModel userModel;
-  QueueModel queueModel;
+  List<QueueModel> queueModel = [];
 
   double screens;
   int amount = 0;
@@ -53,6 +53,34 @@ class _AddQueueUserState extends State<AddQueueUser> {
     timeFormat = new DateFormat.Hms();
     initializeDateFormatting();
     findToken();
+    readQueueData();
+    // print(uidRes);
+  }
+
+  Future<Null> readQueueData() async {
+    await Firebase.initializeApp().then(
+      (value) async {
+        await FirebaseFirestore.instance
+            .collection('restaurantTable')
+            .doc(uidRes)
+            .collection('restaurantQueueTable')
+            .snapshots()
+            .listen(
+          (event) {
+            for (var item in event.docs) {
+              QueueModel model = QueueModel.fromMap(item.data());
+              setState(() {
+                queueModel.add(model);
+              });
+              amount++;
+
+              print('############## QueueModel $queueModel');
+              print('Amount is $amount');
+            }
+          },
+        );
+      },
+    );
   }
 
   Future<Null> readDataUidLogin() async {
@@ -61,6 +89,7 @@ class _AddQueueUserState extends State<AddQueueUser> {
         FirebaseAuth.instance.authStateChanges().listen(
           (event) async {
             uidUser = event.uid;
+            // print(uidUser);
             FirebaseFirestore.instance
                 .collection('userTable')
                 .doc(uidUser)
@@ -86,7 +115,7 @@ class _AddQueueUserState extends State<AddQueueUser> {
   Future<Null> findToken() async {
     FirebaseMessaging.instance.getToken().then((value) {
       token = value;
-      print('############Token is $token ###############');
+      // print('############Token is $token ###############');
     });
   }
 
@@ -318,7 +347,6 @@ class _AddQueueUserState extends State<AddQueueUser> {
     );
   }
 
-
   Container title() {
     return Container(
       margin: EdgeInsets.only(top: 15),
@@ -378,6 +406,7 @@ class _AddQueueUserState extends State<AddQueueUser> {
               tokenUser: token,
               queueStatus: queueStatus,
               urlImageRest: restaurantModel.urlImageRes,
+              uidRest: uidRes,
             );
             Map<String, dynamic> data = queueModel.toMap();
             await FirebaseFirestore.instance

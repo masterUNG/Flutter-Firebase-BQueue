@@ -1,7 +1,9 @@
 import 'dart:io';
+import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_beng_queue_app/model/restaurant_model.dart';
 import 'package:flutter_application_beng_queue_app/model/user_model.dart';
@@ -227,7 +229,9 @@ class _EditRestaurantState extends State<EditRestaurant> {
                 context, 'Please enter your information ian all fields.');
           } else if ((file == null)) {
             normalDialog(context, 'Please your choose images');
-          } else {}
+          } else {
+            upLoadPictureToStoage();
+          }
         },
         child: Text(
           'Save',
@@ -235,6 +239,20 @@ class _EditRestaurantState extends State<EditRestaurant> {
         ),
       ),
     );
+  }
+
+  Future<Null> upLoadPictureToStoage() async {
+    Random random = Random();
+    int i = random.nextInt(1000000);
+
+    FirebaseStorage storage = FirebaseStorage.instance;
+    Reference reference =
+        storage.ref().child('Restaurant/Restaurant$i.jpg');
+    UploadTask uploadTask = reference.putFile(file);
+
+    newUrlImageRes = await (await uploadTask).ref.getDownloadURL();
+    print('UrlImage ===>>> $newUrlImageRes');
+    upLoadToCloudFirestore();
   }
 
   Future<Null> upLoadToCloudFirestore() async {
@@ -247,8 +265,10 @@ class _EditRestaurantState extends State<EditRestaurant> {
           {
             'nameRes': newNameRes,
             'address': newAddress,
-            'urlImageRes': newUrlImageRes
+            'urlImageRes': newUrlImageRes,
           },
+        ).then(
+          (value) {},
         );
       },
     );

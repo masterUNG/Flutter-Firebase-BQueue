@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_beng_queue_app/model/user_model.dart';
 import 'package:flutter_application_beng_queue_app/screens/user/accountUser.dart';
 import 'package:flutter_application_beng_queue_app/screens/user/navbar/historyUser.dart';
+import 'package:flutter_application_beng_queue_app/screens/user/navbar/notificationUser.dart';
 import 'package:flutter_application_beng_queue_app/screens/user/navbar/qrCodeUser.dart';
 import 'package:flutter_application_beng_queue_app/screens/user/navbar/storeUser.dart';
 import 'package:flutter_application_beng_queue_app/utility/my_style.dart';
@@ -19,6 +20,7 @@ class _UserNVAState extends State<UserNVA> {
     StoreUser(),
     QrCodeUser(),
     HistoryUser(),
+    NotificationUser(),
     // AccountUser(),
   ];
   int indexPage = 0;
@@ -64,9 +66,14 @@ class _UserNVAState extends State<UserNVA> {
       appBar: AppBar(
         title: userModel == null
             ? MyStyle().showProgress()
-            : Text('Welcome you ${userModel.name} !',style: TextStyle(fontWeight: FontWeight.w400),),
+            : Text(
+                'Welcome you ${userModel.name} !',
+                style: TextStyle(fontWeight: FontWeight.w400),
+              ),
         actions: [
-          Container(width: 60,height:50 ,
+          Container(
+            width: 60,
+            height: 50,
             margin: EdgeInsets.only(right: 15),
             child: GestureDetector(
               onTap: () {
@@ -81,12 +88,16 @@ class _UserNVAState extends State<UserNVA> {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(50))),
                 child: ClipOval(
-                    child: userModel == null
-                        ? Image.asset(
-                            'images/logo.png',
-                            fit: BoxFit.cover,
-                          )
-                        : Image.network(userModel.imageProfile,fit: BoxFit.cover,),),
+                  child: userModel == null
+                      ? Image.asset(
+                          'images/logo.png',
+                          fit: BoxFit.cover,
+                        )
+                      : Image.network(
+                          userModel.imageProfile,
+                          fit: BoxFit.cover,
+                        ),
+                ),
               ),
             ),
           ),
@@ -98,7 +109,7 @@ class _UserNVAState extends State<UserNVA> {
   }
 
   BottomNavigationBar bottonNavigationBar() => BottomNavigationBar(
-        selectedItemColor: Colors.blue[900],
+        selectedItemColor: Colors.black,
         unselectedItemColor: Colors.white,
         backgroundColor: Colors.red,
         currentIndex: indexPage,
@@ -111,7 +122,7 @@ class _UserNVAState extends State<UserNVA> {
           storeUserNav(),
           qrCodeUserNav(),
           historyUserNav(),
-          // accountUserNav(),
+          notificationUserNav(),
         ],
       );
 
@@ -154,16 +165,17 @@ class _UserNVAState extends State<UserNVA> {
         ));
   }
 
-  BottomNavigationBarItem accountUserNav() {
+  BottomNavigationBarItem notificationUserNav() {
     return BottomNavigationBarItem(
-        backgroundColor: Colors.redAccent[400],
-        icon: Icon(
-          Icons.account_box_rounded,
-          size: 30,
-        ),
-        title: Text(
-          'บัญชีผู้ใช้',
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-        ));
+      backgroundColor: Colors.redAccent[400],
+      icon: Icon(
+        Icons.notifications,
+        size: 30,
+      ),
+      title: Text(
+        'Notifiction',
+        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+      ),
+    );
   }
 }
