@@ -134,7 +134,7 @@ class _StoreRestaurantState extends State<StoreRestaurant> {
   Widget showImage() => Container(
         margin: EdgeInsets.only(top: 10),
         width: MediaQuery.of(context).size.width * 0.8,
-        height: 250,
+        height: MediaQuery.of(context).size.width * 0.8,
         child: Card(
           shadowColor: Colors.red[800],
           shape: RoundedRectangleBorder(

@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_beng_queue_app/model/restaurant_model.dart';
@@ -18,7 +19,7 @@ class AddRaetaurant extends StatefulWidget {
 class _AddRaetaurantState extends State<AddRaetaurant> {
   File file;
   double screens;
-  String uidRes, nameRes, address, urlImage;
+  String uidRes, nameRes, address, urlImage, token;
   UserModel userModel;
 
   @override
@@ -26,6 +27,14 @@ class _AddRaetaurantState extends State<AddRaetaurant> {
     super.initState();
     readUidLogin();
     // findLatLng();
+    findToken();
+  }
+
+  Future<Null> findToken() async {
+    FirebaseMessaging.instance.getToken().then((value) {
+      token = value;
+      print('############Token is $token ###############');
+    });
   }
 
   Future<Null> readUidLogin() async {
@@ -258,7 +267,11 @@ class _AddRaetaurantState extends State<AddRaetaurant> {
 
   Future<Null> addRestaurant() async {
     RestaurantModel restaurantModel = RestaurantModel(
-        nameRes: nameRes, urlImageRes: urlImage, address: address);
+      nameRes: nameRes,
+      urlImageRes: urlImage,
+      address: address,
+      tokenRest: token,
+    );
     Map<String, dynamic> data = restaurantModel.toMap();
     await Firebase.initializeApp().then(
       (value) async {

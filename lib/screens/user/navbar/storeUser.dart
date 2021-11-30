@@ -69,23 +69,6 @@ class _StoreUserState extends State<StoreUser> {
                 maxCrossAxisExtent: sceens*0.5,
                 children: widgets,
               ),
-              //     // child: ListView.builder(
-              //     //   itemCount: widgets.length,
-              //     //   itemBuilder: (context, index) =>
-              //     //       creatWidget(RestaurantModel(), index),
-              //     // ),
-              //   ),
-              // : ListView.builder(
-              //     itemCount: restaurantModel.length,
-              //     itemBuilder: (context, index) => GestureDetector(
-              //       onTap: () {},
-              //       child: Row(
-              //         children: [
-              //           showImage(RestaurantModel()),
-              //           showTextname(RestaurantModel()),
-              //         ],
-              //       ),
-              //     ),
             ), //   ),
     );
   }
@@ -144,6 +127,6 @@ class _StoreUserState extends State<StoreUser> {
               height: sceens * 0.30,
             ),
           ),
-        ),
+        ), 
       );
 }

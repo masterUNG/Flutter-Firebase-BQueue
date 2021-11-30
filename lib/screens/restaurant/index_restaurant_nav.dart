@@ -4,7 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_beng_queue_app/model/user_model.dart';
 import 'package:flutter_application_beng_queue_app/screens/restaurant/account_restaurant.dart';
-import 'package:flutter_application_beng_queue_app/screens/restaurant/navbar/listQueue.dart';
+import 'package:flutter_application_beng_queue_app/screens/restaurant/navbar/listQueueForRestaurant.dart';
 import 'package:flutter_application_beng_queue_app/screens/restaurant/navbar/notifycationRest.dart';
 import 'package:flutter_application_beng_queue_app/screens/restaurant/navbar/store_restaurant.dart';
 import 'package:flutter_application_beng_queue_app/utility/my_style.dart';
@@ -17,7 +17,7 @@ class RestaurantNVA extends StatefulWidget {
 class _RestaurantNVAState extends State<RestaurantNVA> {
   List<Widget> listWidgets = [
     StoreRestaurant(),
-    ListQueue(),
+    ListQueueForRestaurant(),
     NotifycationRest(),
   ];
   int indexPage = 0;

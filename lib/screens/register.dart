@@ -56,7 +56,7 @@ class _RegisterAppState extends State<RegisterApp> {
                 methodTypeRestaurant(),
                 emailForm(),
                 prasswordForm(),
-                confrimPrasswordForm(),
+                // confrimPrasswordForm(),
                 saveButton(),
               ],
             ),
@@ -69,7 +69,7 @@ class _RegisterAppState extends State<RegisterApp> {
   Container saveButton() {
     return Container(
       height: 45,
-      margin: EdgeInsets.only(top: 10),
+      margin: EdgeInsets.only(top: 15),
       width: screens * 0.5,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(

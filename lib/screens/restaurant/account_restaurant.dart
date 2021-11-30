@@ -183,7 +183,7 @@ class _AccountRestaurantState extends State<AccountRestaurant> {
       margin: EdgeInsets.only(left: 10, right: 20),
       child: ListTile(
         onTap: () {
-          normalDialog(context, 'Version 1.0.0');
+          normalDialog(context, 'Developer Thinnakorn');
         },
         leading: Icon(
           Icons.error_outline_outlined,
@@ -282,33 +282,31 @@ class _AccountRestaurantState extends State<AccountRestaurant> {
           Icons.arrow_forward_ios_rounded,
           color: Colors.red,
         ),
-        title: Container(
-          child: Text(
-            nameLogin,
-            style: TextStyle(fontSize: 18),
-          ),
+        title: Text(
+          nameLogin,
+          style: TextStyle(fontSize: 18),
         ),
       ),
     );
   }
 
-  Widget imageButton() {
-    return Container(
-      margin: EdgeInsets.only(top: 30),
-      child: IconButton(
-        icon: userModel == null
-            ? Image.asset(
-                'images/logo.png',
-                fit: BoxFit.cover,
-              )
-            : Image.network(userModel.imageProfile),
-        iconSize: 70,
-        onPressed: () {
-          chooseImage(ImageSource.gallery);
-        },
-      ),
-    );
-  }
+  // Widget imageButton() {
+  //   return Container(
+  //     margin: EdgeInsets.only(top: 30),
+  //     child: IconButton(
+  //       icon: userModel == null
+  //           ? Image.asset(
+  //               'images/logo.png',
+  //               fit: BoxFit.cover,
+  //             )
+  //           : Image.network(userModel.imageProfile),
+  //       iconSize: 70,
+  //       onPressed: () {
+  //         chooseImage(ImageSource.gallery);
+  //       },
+  //     ),
+  //   );
+  // }
 
   Widget showImage() {
     return Container(

@@ -104,9 +104,7 @@ class _EditNameAndLastnameUserState extends State<EditNameAndLastnameUser> {
         FirebaseFirestore.instance
             .collection('userTable')
             .doc(uidUser)
-            .update({"name": newName}).then((value) async {
-          normalDialog(context, 'Update Success');
-        });
+            .update({"name": newName}).then((value) {});
       },
     );
   }

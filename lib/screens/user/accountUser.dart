@@ -156,7 +156,7 @@ class _AccountUserState extends State<AccountUser> {
       margin: EdgeInsets.only(left: 10, right: 20),
       child: ListTile(
         onTap: () {
-          normalDialog(context, 'Version 1.0.0');
+          normalDialog(context, 'Developer Thinnakorn');
         },
         leading: Icon(
           Icons.error_outline_outlined,
@@ -254,13 +254,9 @@ class _AccountUserState extends State<AccountUser> {
           Icons.arrow_forward_ios_rounded,
           color: Colors.red,
         ),
-        title: Row(
-          children: [
-            Text(
-              nameLogin,
-              style: TextStyle(fontSize: 18),
-            ),
-          ],
+        title: Text(
+          nameLogin,
+          style: TextStyle(fontSize: 18),
         ),
       ),
     );

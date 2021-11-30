@@ -9,6 +9,9 @@ class QueueModel {
   final String nameUser;
   final String uidUser;
   final int queueAmount;
+  final bool queueStatus;
+  final String tokenUser;
+  final String urlImageRest;
   QueueModel({
      this.nameRest,
      this.date,
@@ -18,7 +21,11 @@ class QueueModel {
      this.nameUser,
      this.uidUser,
      this.queueAmount,
+     this.queueStatus,
+     this.tokenUser,
+     this.urlImageRest,
   });
+ 
 
   QueueModel copyWith({
     String nameRest,
@@ -29,6 +36,9 @@ class QueueModel {
     String nameUser,
     String uidUser,
     int queueAmount,
+    bool queueStatus,
+    String tokenUser,
+    String urlImageRest,
   }) {
     return QueueModel(
       nameRest: nameRest ?? this.nameRest,
@@ -39,6 +49,9 @@ class QueueModel {
       nameUser: nameUser ?? this.nameUser,
       uidUser: uidUser ?? this.uidUser,
       queueAmount: queueAmount ?? this.queueAmount,
+      queueStatus: queueStatus ?? this.queueStatus,
+      tokenUser: tokenUser ?? this.tokenUser,
+      urlImageRest: urlImageRest ?? this.urlImageRest,
     );
   }
 
@@ -52,6 +65,9 @@ class QueueModel {
       'nameUser': nameUser,
       'uidUser': uidUser,
       'queueAmount': queueAmount,
+      'queueStatus': queueStatus,
+      'tokenUser': tokenUser,
+      'urlImageRest': urlImageRest,
     };
   }
 
@@ -65,6 +81,9 @@ class QueueModel {
       nameUser: map['nameUser'],
       uidUser: map['uidUser'],
       queueAmount: map['queueAmount'],
+      queueStatus: map['queueStatus'],
+      tokenUser: map['tokenUser'],
+      urlImageRest: map['urlImageRest'],
     );
   }
 
@@ -74,7 +93,7 @@ class QueueModel {
 
   @override
   String toString() {
-    return 'QueueModel(nameRest: $nameRest, date: $date, time: $time, peopleAmount: $peopleAmount, tableType: $tableType, nameUser: $nameUser, uidUser: $uidUser, queueAmount: $queueAmount)';
+    return 'QueueModel(nameRest: $nameRest, date: $date, time: $time, peopleAmount: $peopleAmount, tableType: $tableType, nameUser: $nameUser, uidUser: $uidUser, queueAmount: $queueAmount, queueStatus: $queueStatus, tokenUser: $tokenUser, urlImageRest: $urlImageRest)';
   }
 
   @override
@@ -89,7 +108,10 @@ class QueueModel {
       other.tableType == tableType &&
       other.nameUser == nameUser &&
       other.uidUser == uidUser &&
-      other.queueAmount == queueAmount;
+      other.queueAmount == queueAmount &&
+      other.queueStatus == queueStatus &&
+      other.tokenUser == tokenUser &&
+      other.urlImageRest == urlImageRest;
   }
 
   @override
@@ -101,6 +123,9 @@ class QueueModel {
       tableType.hashCode ^
       nameUser.hashCode ^
       uidUser.hashCode ^
-      queueAmount.hashCode;
+      queueAmount.hashCode ^
+      queueStatus.hashCode ^
+      tokenUser.hashCode ^
+      urlImageRest.hashCode;
   }
 }

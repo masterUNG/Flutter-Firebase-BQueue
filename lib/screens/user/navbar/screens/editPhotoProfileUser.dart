@@ -104,7 +104,8 @@ class _EditPhotoProfileUserState extends State<EditPhotoProfileUser> {
                       onTap: () => choooseImage(ImageSource.camera),
                       child: Container(
                         width: screens * 0.7,
-                        child: Card(color: Colors.red,
+                        child: Card(
+                          color: Colors.red,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.all(
                               Radius.circular(20),
@@ -116,11 +117,15 @@ class _EditPhotoProfileUserState extends State<EditPhotoProfileUser> {
                                   padding: EdgeInsets.all(10),
                                   child: Icon(
                                     Icons.camera_alt_rounded,
-                                    size: 30,color: Colors.white,
+                                    size: 30,
+                                    color: Colors.white,
                                   )),
                               Text(
                                 'Choose from camera',
-                                style: TextStyle(fontSize: 18,color: Colors.white,),
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  color: Colors.white,
+                                ),
                               ),
                             ],
                           ),
@@ -134,7 +139,8 @@ class _EditPhotoProfileUserState extends State<EditPhotoProfileUser> {
                       onTap: () => choooseImage(ImageSource.gallery),
                       child: Container(
                         width: screens * 0.7,
-                        child: Card(color: Colors.red,
+                        child: Card(
+                          color: Colors.red,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.all(
                               Radius.circular(20),
@@ -146,11 +152,13 @@ class _EditPhotoProfileUserState extends State<EditPhotoProfileUser> {
                                   padding: EdgeInsets.all(10),
                                   child: Icon(
                                     Icons.photo,
-                                    size: 30,color: Colors.white,
+                                    size: 30,
+                                    color: Colors.white,
                                   )),
                               Text(
                                 'Choose from photo',
-                                style: TextStyle(fontSize: 18,color: Colors.white),
+                                style: TextStyle(
+                                    fontSize: 18, color: Colors.white),
                               ),
                             ],
                           ),
@@ -217,9 +225,7 @@ class _EditPhotoProfileUserState extends State<EditPhotoProfileUser> {
           .collection('userTable')
           .doc(uidUser)
           .update({"imageProfile": newUrlImageProfile}).then(
-        (value) async {
-          normalDialog(context, 'Update Success');
-        },
+        (value) async {},
       );
     });
   }

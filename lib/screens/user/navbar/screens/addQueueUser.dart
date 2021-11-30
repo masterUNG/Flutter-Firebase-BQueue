@@ -26,6 +26,7 @@ class _AddQueueUserState extends State<AddQueueUser> {
 
   bool statusHaveData = true;
   bool statusNoData = true;
+  bool queueStatus = false;
 
   // Model
   RestaurantModel restaurantModel;
@@ -317,21 +318,6 @@ class _AddQueueUserState extends State<AddQueueUser> {
     );
   }
 
-  // Container methodTypeOther() {
-  //   return Container(
-  //     width: screens * 0.8,
-  //     child: RadioListTile(
-  //       value: 'other',
-  //       groupValue: typeTable,
-  //       onChanged: (value) {
-  //         setState(() {
-  //           typeTable = value;
-  //         });
-  //       },
-  //       title: Text('อื่นๆ'),
-  //     ),
-  //   );
-  // }
 
   Container title() {
     return Container(
@@ -389,6 +375,9 @@ class _AddQueueUserState extends State<AddQueueUser> {
               uidUser: uidUser,
               nameUser: nameLogin,
               queueAmount: queueAmount,
+              tokenUser: token,
+              queueStatus: queueStatus,
+              urlImageRest: restaurantModel.urlImageRes,
             );
             Map<String, dynamic> data = queueModel.toMap();
             await FirebaseFirestore.instance
