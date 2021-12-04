@@ -156,7 +156,7 @@ class _EditPhotoProfileUserState extends State<EditPhotoProfileUser> {
                                     color: Colors.white,
                                   )),
                               Text(
-                                'Choose from photo',
+                                'Choose from gallery',
                                 style: TextStyle(
                                     fontSize: 18, color: Colors.white),
                               ),

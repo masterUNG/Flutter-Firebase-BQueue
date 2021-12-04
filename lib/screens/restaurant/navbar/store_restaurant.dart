@@ -18,7 +18,6 @@ class _StoreRestaurantState extends State<StoreRestaurant> {
   String uidUser, uidRest, name, image, address;
   bool status = true;
 
-
   @override
   void initState() {
     // TODO: implement initState
@@ -120,7 +119,7 @@ class _StoreRestaurantState extends State<StoreRestaurant> {
             Container(
               margin: EdgeInsets.only(left: 10),
               child: Text(
-                'Address : ${restaurantModel.address}',
+                restaurantModel.address,
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w400,
@@ -174,7 +173,7 @@ class _StoreRestaurantState extends State<StoreRestaurant> {
                 left: 10,
               ),
               child: Text(
-                'Name : ${restaurantModel.nameRes}',
+                restaurantModel.nameRes,
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w400,

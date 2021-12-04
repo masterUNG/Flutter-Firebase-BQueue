@@ -114,9 +114,11 @@ class _UserNVAState extends State<UserNVA> {
         backgroundColor: Colors.red,
         currentIndex: indexPage,
         onTap: (value) {
-          setState(() {
-            indexPage = value;
-          });
+          setState(
+            () {
+              indexPage = value;
+            },
+          );
         },
         items: [
           storeUserNav(),
@@ -128,20 +130,21 @@ class _UserNVAState extends State<UserNVA> {
 
   BottomNavigationBarItem storeUserNav() {
     return BottomNavigationBarItem(
-        backgroundColor: Colors.redAccent[400],
-        icon: Icon(
-          Icons.store_mall_directory_sharp,
-          size: 30,
-        ),
-        title: Text(
-          'Store',
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-        ));
+      backgroundColor: Colors.red,
+      icon: Icon(
+        Icons.store_mall_directory_sharp,
+        size: 30,
+      ),
+      title: Text(
+        'Store',
+        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+      ),
+    );
   }
 
   BottomNavigationBarItem qrCodeUserNav() {
     return BottomNavigationBarItem(
-        backgroundColor: Colors.redAccent[400],
+        backgroundColor: Colors.red,
         icon: Icon(
           Icons.qr_code_scanner_rounded,
           size: 30,
@@ -154,20 +157,21 @@ class _UserNVAState extends State<UserNVA> {
 
   BottomNavigationBarItem historyUserNav() {
     return BottomNavigationBarItem(
-        backgroundColor: Colors.redAccent[400],
-        icon: Icon(
-          Icons.menu_book_rounded,
-          size: 30,
-        ),
-        title: Text(
-          'List',
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-        ));
+      backgroundColor: Colors.red,
+      icon: Icon(
+        Icons.menu_book_rounded,
+        size: 30,
+      ),
+      title: Text(
+        'List',
+        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+      ),
+    );
   }
 
   BottomNavigationBarItem notificationUserNav() {
     return BottomNavigationBarItem(
-      backgroundColor: Colors.redAccent[400],
+      backgroundColor: Colors.red,
       icon: Icon(
         Icons.notifications,
         size: 30,
