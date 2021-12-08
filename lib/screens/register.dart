@@ -15,7 +15,7 @@ class RegisterApp extends StatefulWidget {
 class _RegisterAppState extends State<RegisterApp> {
   bool statusRedEye = true;
   bool statusRedEy = true;
-  String name, email, password, conPassword, typeUser;
+  String name, email, password, typeUser;
   double screens;
   String imageProfile =
       'https://firebasestorage.googleapis.com/v0/b/bengqueueproject2.appspot.com/o/Profile%2FDeflutProfile%2F1.png?alt=media&token=ca98b383-8791-477a-bf59-941f99091306';
@@ -56,7 +56,7 @@ class _RegisterAppState extends State<RegisterApp> {
                 methodTypeRestaurant(),
                 emailForm(),
                 prasswordForm(),
-                confrimPrasswordForm(),
+                // confrimPrasswordForm(),
                 saveButton(),
               ],
             ),
@@ -86,12 +86,7 @@ class _RegisterAppState extends State<RegisterApp> {
                 context, 'Please enter your information ian all fields.');
           } else if (typeUser?.isEmpty ?? true) {
             normalDialog(context, 'Please your choose type user.');
-          } else if (conPassword?.isEmpty ??
-              true != password?.isEmpty ??
-              true) {
-            normalDialog(context, 'Password do not match');
-          }
-          {
+          } else {
             createAccountAndInsertInformation();
           }
         },
@@ -105,61 +100,57 @@ class _RegisterAppState extends State<RegisterApp> {
 
   Future<Null> createAccountAndInsertInformation() async {
     await Firebase.initializeApp().then((value) async {
-      if (conPassword?.isEmpty ?? true != password?.isEmpty ?? true) {
-        normalDialog(context, 'Password do not match');
-      } else {
-        await FirebaseAuth.instance
-            .createUserWithEmailAndPassword(email: email, password: password)
-            .then(
-          (value) async {
-            // print(
-            //     'Create Account Success Name ==>> $name typeUser ==>> $typeUser Emai ==>> $email Password ==>> $password');
-            // await value.user.updateProfile(displayName: name).then(
-            await value.user.updateDisplayName(name).then(
-              (value2) async {
-                String uid = value.user.uid;
-                // print('Update Profile Succress And uid ==>> $uid');
-                UserModel model = UserModel(
-                    email: email,
-                    name: name,
-                    userType: typeUser,
-                    password: password,
-                    imageProfile: imageProfile);
-                Map<String, dynamic> data = model.toMap();
-                await FirebaseFirestore.instance
-                    .collection('userTable')
-                    .doc(uid)
-                    .set(data)
-                    .then((value) {
-                  print('Insert value to Firestore Succerss');
-                  switch (typeUser) {
-                    case 'user':
-                      Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => UserNVA(),
-                          ),
-                          (route) => false);
-                      break;
+      await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(email: email, password: password)
+          .then(
+        (value) async {
+          // print(
+          //     'Create Account Success Name ==>> $name typeUser ==>> $typeUser Emai ==>> $email Password ==>> $password');
+          // await value.user.updateProfile(displayName: name).then(
+          await value.user.updateDisplayName(name).then(
+            (value2) async {
+              String uid = value.user.uid;
+              // print('Update Profile Succress And uid ==>> $uid');
+              UserModel model = UserModel(
+                  email: email,
+                  name: name,
+                  userType: typeUser,
+                  password: password,
+                  imageProfile: imageProfile);
+              Map<String, dynamic> data = model.toMap();
+              await FirebaseFirestore.instance
+                  .collection('userTable')
+                  .doc(uid)
+                  .set(data)
+                  .then((value) {
+                print('Insert value to Firestore Succerss');
+                switch (typeUser) {
+                  case 'user':
+                    Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => UserNVA(),
+                        ),
+                        (route) => false);
+                    break;
 
-                    case 'restaurant':
-                      Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => RestaurantNVA(),
-                          ),
-                          (route) => false);
-                      break;
-                    default:
-                  }
-                });
-              },
-            );
-          },
-        ).catchError(
-          (onError) => normalDialog(context, onError.code),
-        );
-      }
+                  case 'restaurant':
+                    Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => RestaurantNVA(),
+                        ),
+                        (route) => false);
+                    break;
+                  default:
+                }
+              });
+            },
+          );
+        },
+      ).catchError(
+        (onError) => normalDialog(context, onError.code),
+      );
     }
         // print(
         //   'Firebase InitializaApp Success ',
@@ -352,34 +343,34 @@ class _RegisterAppState extends State<RegisterApp> {
         ),
       );
 
-  Widget confrimPrasswordForm() => Container(
-        width: screens * 0.8,
-        margin: EdgeInsets.only(top: 10),
-        child: TextField(
-          onChanged: (value) => conPassword = value.trim(),
-          obscureText: statusRedEy,
-          decoration: InputDecoration(
-            label: Text(
-              'Confirm password',
-              style: TextStyle(color: Colors.black54),
-            ),
-            prefixIcon: Icon(
-              Icons.password_rounded,
-              color: Colors.red,
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.red),
-              borderRadius: BorderRadius.all(
-                Radius.circular(20),
-              ),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.orange),
-              borderRadius: BorderRadius.all(
-                Radius.circular(20),
-              ),
-            ),
-          ),
-        ),
-      );
+  // Widget confrimPrasswordForm() => Container(
+  //       width: screens * 0.8,
+  //       margin: EdgeInsets.only(top: 10),
+  //       child: TextField(
+  //         onChanged: (value) => conPassword = value.trim(),
+  //         obscureText: statusRedEy,
+  //         decoration: InputDecoration(
+  //           label: Text(
+  //             'Confirm password',
+  //             style: TextStyle(color: Colors.black54),
+  //           ),
+  //           prefixIcon: Icon(
+  //             Icons.password_rounded,
+  //             color: Colors.red,
+  //           ),
+  //           enabledBorder: OutlineInputBorder(
+  //             borderSide: BorderSide(color: Colors.red),
+  //             borderRadius: BorderRadius.all(
+  //               Radius.circular(20),
+  //             ),
+  //           ),
+  //           focusedBorder: OutlineInputBorder(
+  //             borderSide: BorderSide(color: Colors.orange),
+  //             borderRadius: BorderRadius.all(
+  //               Radius.circular(20),
+  //             ),
+  //           ),
+  //         ),
+  //       ),
+  //     );
 }

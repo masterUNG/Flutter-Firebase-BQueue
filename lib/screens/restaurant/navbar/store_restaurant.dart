@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -5,7 +7,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_beng_queue_app/model/restaurant_model.dart';
 import 'package:flutter_application_beng_queue_app/model/user_model.dart';
 import 'package:flutter_application_beng_queue_app/screens/restaurant/navbar/screens/add_restaurant.dart';
+import 'package:flutter_application_beng_queue_app/screens/restaurant/navbar/screens/editAddreddRestaurant.dart';
+import 'package:flutter_application_beng_queue_app/screens/restaurant/navbar/screens/editNameRestrant.dart';
+import 'package:flutter_application_beng_queue_app/screens/restaurant/navbar/screens/editPhotoRestaurant.dart';
 import 'package:flutter_application_beng_queue_app/utility/my_style.dart';
+import 'package:image_picker/image_picker.dart';
 
 class StoreRestaurant extends StatefulWidget {
   @override
@@ -17,6 +23,7 @@ class _StoreRestaurantState extends State<StoreRestaurant> {
   UserModel userModel;
   String uidUser, uidRest, name, image, address;
   bool status = true;
+  File file;
 
   @override
   void initState() {
@@ -90,8 +97,8 @@ class _StoreRestaurantState extends State<StoreRestaurant> {
         children: [
           showTextRestaurant(),
           showImage(),
-          showNameRestaurant(),
-          showAddress(),
+          editNameRest(),
+          editAddressRest(),
         ],
       ),
     );
@@ -130,32 +137,27 @@ class _StoreRestaurantState extends State<StoreRestaurant> {
         ),
       );
 
-  Widget showImage() => Container(
-        margin: EdgeInsets.only(top: 10),
-        width: MediaQuery.of(context).size.width * 0.8,
-        height: MediaQuery.of(context).size.width * 0.8,
-        child: Card(
-          shadowColor: Colors.red[800],
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(10))),
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(
-                Radius.circular(100),
-              ),
+  Widget showImage() => GestureDetector(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => EditPhotoRestaurant(),
             ),
-            padding: EdgeInsets.all(15),
-            width: 200,
-            height: 200,
-            child: restaurantModel == null
-                ? MyStyle().showLogo()
-                : Container(
-                    child: Image.network(
-                    restaurantModel.urlImageRes,
-                    fit: BoxFit.cover,
-                  )),
-          ),
-        ),
+          );
+        },
+        child: Container(
+            margin: EdgeInsets.only(top: 10),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+            ),
+            width: 300,
+            height: 300,
+            child: Card(
+                child: Image.network(
+              restaurantModel.urlImageRes,
+              fit: BoxFit.cover,
+            ))),
       );
 
   Widget showNameRestaurant() => Container(
@@ -205,6 +207,74 @@ class _StoreRestaurantState extends State<StoreRestaurant> {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget editAddressRest() {
+    return Container(
+      width: MediaQuery.of(context).size.width * 0.9,
+      margin: EdgeInsets.only(
+        left: 10,
+        right: 20,
+        top: 20,
+      ),
+      child: ListTile(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => EditAddressRestaurant(),
+            ),
+          );
+        },
+        leading: Icon(
+          Icons.fmd_good_sharp,
+          size: 30,
+          color: Colors.red,
+        ),
+        trailing: Icon(
+          Icons.arrow_forward_ios_rounded,
+          color: Colors.red,
+        ),
+        title: Text(
+          restaurantModel.address,
+          style: TextStyle(fontSize: 18),
+        ),
+      ),
+    );
+  }
+
+  Widget editNameRest() {
+    return Container(
+      width: MediaQuery.of(context).size.width * 0.9,
+      margin: EdgeInsets.only(
+        left: 10,
+        right: 20,
+        top: 20,
+      ),
+      child: ListTile(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => EditNameRestaurant(),
+            ),
+          );
+        },
+        leading: Icon(
+          Icons.store_mall_directory_sharp,
+          size: 30,
+          color: Colors.red,
+        ),
+        trailing: Icon(
+          Icons.arrow_forward_ios_rounded,
+          color: Colors.red,
+        ),
+        title: Text(
+          restaurantModel.nameRes,
+          style: TextStyle(fontSize: 18),
+        ),
       ),
     );
   }

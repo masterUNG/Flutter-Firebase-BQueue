@@ -129,7 +129,11 @@ class _EditNameRestaurantState extends State<EditNameRestaurant> {
         FirebaseFirestore.instance
             .collection('restaurantTable')
             .doc(uidUser)
-            .update({"nameRes": newNameRest}).then((value) {});
+            .update(
+          {
+            "nameRes": newNameRest,
+          },
+        ).then((value) {});
       },
     );
   }

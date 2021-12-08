@@ -9,6 +9,7 @@ import 'package:flutter_application_beng_queue_app/model/restaurant_model.dart';
 import 'package:flutter_application_beng_queue_app/model/user_model.dart';
 import 'package:flutter_application_beng_queue_app/screens/restaurant/navbar/screens/editAddreddRestaurant.dart';
 import 'package:flutter_application_beng_queue_app/screens/restaurant/navbar/screens/editNameRestrant.dart';
+import 'package:flutter_application_beng_queue_app/screens/restaurant/navbar/screens/editPhotoRestaurant.dart';
 import 'package:flutter_application_beng_queue_app/utility/dialog.dart';
 import 'package:flutter_application_beng_queue_app/utility/my_style.dart';
 import 'package:image_picker/image_picker.dart';
@@ -104,7 +105,7 @@ class _EditRestaurantState extends State<EditRestaurant> {
                 child: Column(
                   children: [
                     showImage(),
-                    addImage(),
+                    // addImage(),
                     // nameRestaurant(),
                     // addressForm(),
                     // saveButton(),
@@ -186,7 +187,11 @@ class _EditRestaurantState extends State<EditRestaurant> {
 
   Widget showImage() => GestureDetector(
         onTap: () {
-          callTypeUserDialog();
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => EditPhotoRestaurant(),
+              ));
         },
         child: Container(
             margin: EdgeInsets.only(top: 30),

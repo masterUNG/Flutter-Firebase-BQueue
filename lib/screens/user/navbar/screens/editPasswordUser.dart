@@ -63,13 +63,7 @@ class _EditPasswordUserState extends State<EditPasswordUser> {
         actions: [
           IconButton(
               onPressed: () {
-                if (userModel.password == pass) {
-                  normalDialog(context, 'Password is not True');
-                } else if (conFirmPassword == newPassword) {
-                  normalDialog(context, 'New password is not True');
-                } else if ((pass?.isEmpty == true) ||
-                    (newPassword?.isEmpty == true) ||
-                    (conFirmPassword?.isEmpty == true)) {
+                if ((newPassword?.isEmpty == true)) {
                   normalDialog(context, 'Please enter your textfield');
                 } else {
                   upDatePassword();
@@ -94,9 +88,9 @@ class _EditPasswordUserState extends State<EditPasswordUser> {
               children: [
                 Column(
                   children: [
-                    prasswordForm(),
+                    // prasswordForm(),
                     newPrasswordForm(),
-                    confrimPrasswordForm(),
+                    // confrimPrasswordForm(),
                   ],
                 ),
               ],

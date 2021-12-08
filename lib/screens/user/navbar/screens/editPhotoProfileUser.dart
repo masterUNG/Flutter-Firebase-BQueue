@@ -7,7 +7,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_beng_queue_app/model/user_model.dart';
-import 'package:flutter_application_beng_queue_app/utility/dialog.dart';
 import 'package:flutter_application_beng_queue_app/utility/my_style.dart';
 import 'package:image_picker/image_picker.dart';
 

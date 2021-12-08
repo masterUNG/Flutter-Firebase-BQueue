@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:qrscan/qrscan.dart' as scanner;
+
 
 class QrCodeUser extends StatefulWidget {
   const QrCodeUser({Key key}) : super(key: key);
@@ -12,14 +12,14 @@ class QrCodeUser extends StatefulWidget {
 class _QrCodeUserState extends State<QrCodeUser> {
   String scanresult;
 
-  scanResult() async {
-    String scanResult = await scanner.scan();
-    setState(
-      () {
-        scanresult = scanResult;
-      },
-    );
-  }
+  // scanResult() async {
+  //   String scanResult = await scanner.scan();
+  //   setState(
+  //     () {
+  //       scanresult = scanResult;
+  //     },
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +39,7 @@ class _QrCodeUserState extends State<QrCodeUser> {
           Center(
             child: ElevatedButton(
                 onPressed: () {
-                  scanResult();
+                  // scanResult();
                 },
                 child: Text('Scan')),
           ),
