@@ -74,7 +74,7 @@ class _AddQueueUserState extends State<AddQueueUser> {
               });
               amount++;
 
-              print('############## QueueModel $queueModel');
+              // print('############## QueueModel $queueModel');
               print('Amount is $amount');
             }
           },
@@ -115,7 +115,7 @@ class _AddQueueUserState extends State<AddQueueUser> {
   Future<Null> findToken() async {
     FirebaseMessaging.instance.getToken().then((value) {
       token = value;
-      // print('############Token is $token ###############');
+      print('############Token is $token ###############');
     });
   }
 
