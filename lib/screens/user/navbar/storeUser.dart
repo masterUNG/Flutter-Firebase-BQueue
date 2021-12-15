@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_beng_queue_app/model/restaurant_model.dart';
 import 'package:flutter_application_beng_queue_app/screens/user/navbar/screens/addQueueUser.dart';
@@ -21,7 +20,6 @@ class _StoreUserState extends State<StoreUser> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     readData();
   }
