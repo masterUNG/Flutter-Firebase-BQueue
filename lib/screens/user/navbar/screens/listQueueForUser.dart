@@ -3,10 +3,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_beng_queue_app/model/queue_model.dart';
-import 'package:flutter_application_beng_queue_app/model/restaurant_model.dart';
-import 'package:flutter_application_beng_queue_app/model/user_model.dart';
-import 'package:flutter_application_beng_queue_app/utility/dialog.dart';
+import 'package:flutter_application_beng_queue_app/screens/user/navbar/screens/detail_queue_for_user.dart';
 import 'package:flutter_application_beng_queue_app/utility/my_style.dart';
+import 'package:intl/intl.dart';
 
 class ListQueueUser extends StatefulWidget {
   const ListQueueUser({Key key}) : super(key: key);
@@ -16,213 +15,93 @@ class ListQueueUser extends StatefulWidget {
 }
 
 class _ListQueueUserState extends State<ListQueueUser> {
-  RestaurantModel restaurantModel;
-  UserModel userModel;
-  List<QueueModel> queueModels = [];
-  List<String> uidRests = [];
-  bool statusLoad = true;
-  bool statusHaveData = true;
-
-  String uidUser, uidRest, name, image, address, date, time, nameUser, nameRest;
+  var queruModels = <QueueModel>[];
+  var load = true;
+  var haveQueue = false; // false => No Queue
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    // readDataRes();
-    readUidLogin();
-    readDataRes();
-    readQueueData();
+    readAllQuere();
   }
 
-  Future<Null> readQueueData() async {
-    FirebaseFirestore.instance
-        .collection("restaurantQueueTable")
-        .get()
-        .then((querySnapshot) {
-      querySnapshot.docs.forEach((result) {
-        var data = result.data();
-        print("uidUser");
-        print(data["uidUser"]);
-      });
-    });
-  }
-
-  Future<Null> readDataRes() async {
+  Future<void> readAllQuere() async {
+    if (queruModels.isNotEmpty) {
+      queruModels.clear();
+    }
     await Firebase.initializeApp().then((value) async {
-      await FirebaseAuth.instance.authStateChanges().listen(
-        (event) async {
-          uidRest = event.uid;
-        },
-      );
-    });
-  }
-
-  Future<Null> readUidLogin() async {
-    await Firebase.initializeApp().then(
-      (value) async {
-        await FirebaseAuth.instance.authStateChanges().listen(
-          (event) async {
-            uidUser = event.uid;
-            // print('Uid = $uidUser');
-            await FirebaseFirestore.instance
-                .collection('userTable')
-                .doc(uidUser)
-                .snapshots()
-                .listen(
-              (event) {
-                setState(
-                  () {
-                    userModel = UserModel.fromMap(event.data());
-                    String nameLogin = userModel.name;
-                    // print('NameLogin ====>>>> $nameLogin');
-                  },
-                );
-              },
-            );
-            statusHaveData = true;
-            if (queueModels.length != null) {
-              queueModels.clear();
-            } else {
-              MyStyle().showProgress();
-            }
+      await FirebaseAuth.instance.authStateChanges().listen((event) async {
+        String uidUserLogined = event.uid;
+        await FirebaseFirestore.instance
+            .collection('restaurantTable')
+            .get()
+            .then((value) async {
+          setState(() {
+            load = false;
+          });
+          for (var item in value.docs) {
+            String docIdRestaurantTable = item.id;
             await FirebaseFirestore.instance
                 .collection('restaurantTable')
-                .doc(uidRest)
+                .doc(docIdRestaurantTable)
                 .collection('restaurantQueueTable')
-                .snapshots()
-                .listen(
-              (event) async {
-                setState(() {
-                  statusLoad = false;
-                });
-                int index = 0;
-                if (event.docs.length == 0) {
-                  setState(() {
-                    statusHaveData = false;
-                  });
-                } else {
-                  for (var item in event.docs) {
-                    String uidRest = item.id;
-                    uidRests.add(uidRest);
-                    QueueModel qModel = QueueModel.fromMap(
-                      item.data(),
-                    );
-
-                    if (qModel != null) {
-                      setState(() {
-                        queueModels.add(qModel);
-                      });
-                    } else {}
+                .get()
+                .then((value) {
+              for (var item in value.docs) {
+                QueueModel queueModel = QueueModel.fromMap(item.data());
+                if (queueModel.uidUser == uidUserLogined) {
+                  if (!queueModel.queueStatus) {
+                    setState(() {
+                      haveQueue = true;
+                      queruModels.add(queueModel);
+                      print('haveQueu ==>> $haveQueue');
+                    });
                   }
                 }
-              },
-            );
-          },
-        );
-      },
-    );
+              }
+            });
+          }
+        });
+      });
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: statusLoad
+      body: load
           ? MyStyle().showProgress()
-          : statusHaveData
+          : haveQueue
               ? ListView.builder(
-                  itemCount: queueModels.length,
-                  itemBuilder: (context, index) => Container(
-                    height: 160,
-                    margin: EdgeInsets.only(right: 10, left: 10),
+                  itemCount: queruModels.length,
+                  itemBuilder: (context, index) => GestureDetector(
+                    onTap: () {
+                      print('You Click Index => $index');
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => DetailQueueForUser(
+                              queueModel: queruModels[index]),
+                        ),
+                      );
+                    },
                     child: Card(
-                      shadowColor: Colors.red,
-                      child: Row(
-                        children: [
-                          Container(
-                            width: 120,
-                            child: Image.asset('images/logo.png'),
-                          ),
-                          Container(
-                            width: MediaQuery.of(context).size.width * 0.58,
-                            child: Column(
-                              children: [
-                                Row(
-                                  children: [
-                                    Container(
-                                      width: MediaQuery.of(context).size.width *
-                                          0.56,
-                                      margin: EdgeInsets.only(top: 5),
-                                      child: Text(
-                                          'You : ${queueModels[index].nameUser}'),
-                                    ),
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    Container(
-                                        width:
-                                            MediaQuery.of(context).size.width *
-                                                0.56,
-                                        margin: EdgeInsets.only(
-                                          top: 5,
-                                        ),
-                                        child: Text(
-                                            'Table Type : ${queueModels[index].tableType}')),
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    Container(
-                                        width:
-                                            MediaQuery.of(context).size.width *
-                                                0.56,
-                                        margin: EdgeInsets.only(
-                                          top: 5,
-                                        ),
-                                        child: Text(
-                                            'Number Of People : ${queueModels[index].peopleAmount}')),
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    Container(
-                                      margin: EdgeInsets.only(
-                                        top: 5,
-                                      ),
-                                      width: MediaQuery.of(context).size.width *
-                                          0.56,
-                                      child: Text(
-                                          'Queue Number : ${queueModels[index].queueAmount}'),
-                                    ),
-                                  ],
-                                ),
-                                ElevatedButton(
-                                  onPressed: () {
-                                    normalDialog(context, 'Notification User');
-                                  },
-                                  child: Text('SentNotification'),
-                                )
-                              ],
-                            ),
-                          ),
-
-                          // IconButton(
-                          //   onPressed: () {},
-                          //   icon: Icon(
-                          //     Icons.ac_unit,
-                          //     color: Colors.red,
-                          //     size: 35,
-                          //   ),
-                          // ),
-                        ],
-                      ),
-                    ),
+                        child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Text(changeTimeToString(queruModels[index].time)),
+                    )),
                   ),
                 )
               : Center(
                   child: Text('No Queue'),
                 ),
     );
+  }
+
+  String changeTimeToString(Timestamp time) {
+    DateFormat dateFormat = DateFormat('dd/MMM/yyyy HH:mm');
+    String timeStr = dateFormat.format(time.toDate());
+    return timeStr;
   }
 }

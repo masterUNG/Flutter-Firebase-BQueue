@@ -19,6 +19,9 @@ class _EditPasswordUserState extends State<EditPasswordUser> {
   String uidUser, password, pass, newPassword, conFirmPassword;
   bool statusRedEy = true;
 
+  final formKey = GlobalKey<FormState>();
+  TextEditingController passwordController = TextEditingController();
+
   @override
   void initState() {
     // TODO: implement initState
@@ -62,11 +65,19 @@ class _EditPasswordUserState extends State<EditPasswordUser> {
       appBar: AppBar(
         actions: [
           IconButton(
-              onPressed: () {
-                if ((newPassword?.isEmpty == true)) {
-                  normalDialog(context, 'Please enter your textfield');
-                } else {
-                  upDatePassword();
+              onPressed: () async {
+                if (formKey.currentState.validate()) {
+                  newPassword = passwordController.text;
+                  await Firebase.initializeApp().then((value) async {
+                    await FirebaseAuth.instance
+                        .authStateChanges()
+                        .listen((event) async {
+                      event.updatePassword(newPassword).then((value) {
+                        print('Success Update Password');
+                        upDatePassword();
+                      });
+                    });
+                  });
                 }
               },
               icon: Icon(
@@ -86,12 +97,15 @@ class _EditPasswordUserState extends State<EditPasswordUser> {
           : Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Column(
-                  children: [
-                    // prasswordForm(),
-                    newPrasswordForm(),
-                    // confrimPrasswordForm(),
-                  ],
+                Form(
+                  key: formKey,
+                  child: Column(
+                    children: [
+                      // prasswordForm(),
+                      newPrasswordForm(),
+                      // confrimPrasswordForm(),
+                    ],
+                  ),
                 ),
               ],
             ),
@@ -99,25 +113,22 @@ class _EditPasswordUserState extends State<EditPasswordUser> {
   }
 
   Future<Null> upDatePassword() async {
+    Map<String, dynamic> map = {};
+    map['password'] = newPassword;
+
     await Firebase.initializeApp().then(
       (value) async {
-        FirebaseAuth.instance.currentUser
-            .updatePassword(newPassword)
-            .then((value) {
-          FirebaseFirestore.instance
-              .collection('userTable')
-              .doc(uidUser)
-              .update(
-            {"password": newPassword},
-          ).then(
-            (value) async {
-              normalDialog(context, 'Update Success');
-            },
-          );
-          normalDialog(context, 'Update Password Success');
-        }).catchError(
-          (onErro) => normalDialog(context, onErro),
-        );
+        await FirebaseFirestore.instance
+            .collection('userTable')
+            .doc(uidUser)
+            .update(map)
+            .then(
+          (value) async {
+            normalDialog(context, 'Update Success');
+          },
+        ).catchError((value) {
+          normalDialog(context, value.code);
+        });
       },
     );
   }
@@ -156,8 +167,19 @@ class _EditPasswordUserState extends State<EditPasswordUser> {
   Widget newPrasswordForm() => Container(
         width: screens * 0.8,
         margin: EdgeInsets.only(top: 10),
-        child: TextField(
-          onChanged: (value) => newPassword = value.trim(),
+        child: TextFormField(
+          controller: passwordController,
+          validator: (value) {
+            if (value.isEmpty) {
+              return 'Please Fill Password';
+            } else {
+              if (value.length < 6) {
+                return 'Password More 6 Digi';
+              } else {
+                return null;
+              }
+            }
+          },
           obscureText: statusRedEy,
           decoration: InputDecoration(
             label: Text(
@@ -176,6 +198,18 @@ class _EditPasswordUserState extends State<EditPasswordUser> {
             ),
             focusedBorder: OutlineInputBorder(
               borderSide: BorderSide(color: Colors.orange),
+              borderRadius: BorderRadius.all(
+                Radius.circular(20),
+              ),
+            ),
+            errorBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.red),
+              borderRadius: BorderRadius.all(
+                Radius.circular(20),
+              ),
+            ),
+            focusedErrorBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.red),
               borderRadius: BorderRadius.all(
                 Radius.circular(20),
               ),

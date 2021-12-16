@@ -395,7 +395,7 @@ class _AddQueueUserState extends State<AddQueueUser> {
             String uidUser = event.uid;
             QueueModel queueModel = QueueModel(
               date: date,
-              time: time,
+              time: Timestamp.fromDate(dateTimeNow),
               peopleAmount: peopleAmount,
               nameRest: restaurantModel.nameRes,
               tableType: typeTable,

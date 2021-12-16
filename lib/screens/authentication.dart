@@ -1,13 +1,14 @@
-import 'dart:ui';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_beng_queue_app/model/user_model.dart';
 import 'package:flutter_application_beng_queue_app/screens/restaurant/index_restaurant_nav.dart';
 import 'package:flutter_application_beng_queue_app/screens/user/indexUserNav.dart';
 import 'package:flutter_application_beng_queue_app/screens/register.dart';
 import 'package:flutter_application_beng_queue_app/utility/dialog.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -22,11 +23,84 @@ class _AuthenticationState extends State<Authentication> {
   String email, password, name, uid, avatarUrl;
   bool status = true;
   String typeUser = 'user';
+  String token, titleNoti, bodyNoti;
+
+  FlutterLocalNotificationsPlugin flutterLocalNotificationPlugin;
+  InitializationSettings initializationSettings;
+  AndroidInitializationSettings androidInitializationSettings;
 
   @override
   void initState() {
     super.initState();
-    checkStatus();
+    setupMessaging();
+    // setupLocalNotification();
+  }
+
+  Future<void> setupLocalNotification() async {
+    print('statr Noti Success');
+    androidInitializationSettings =
+        AndroidInitializationSettings('ic_launcher');
+    initializationSettings =
+        InitializationSettings(android: androidInitializationSettings);
+    await flutterLocalNotificationPlugin
+        .initialize(
+      initializationSettings,
+      onSelectNotification: onSelectNoti,
+    )
+        .then((value) {
+      print('Setup Noti Success');
+    }).catchError((error) {
+      print('error ===>>> $error');
+    });
+  }
+
+  Future<void> onSelectNoti(String string) async {
+    if (string != null) {
+      print('Doing ??? Alter Click Noti');
+    }
+  }
+
+  Future<void> setupMessaging() async {
+    await Firebase.initializeApp().then((value) async {
+      FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
+      token = await firebaseMessaging.getToken();
+      print('token ==> $token');
+      checkStatus();
+    });
+
+    // for FontEnd Service
+    FirebaseMessaging.onMessage.listen((event) {
+      titleNoti = event.notification.title;
+      bodyNoti = event.notification.body;
+      print('@@ from FontEnd titleNoti = $titleNoti, bodyNoti = $bodyNoti');
+      // processShowLocalNoti();
+      // normalDialog(context, 'title');
+    });
+
+    // for BackEnd Service
+    FirebaseMessaging.onMessageOpenedApp.listen((event) {
+      titleNoti = event.notification.title;
+      bodyNoti = event.notification.body;
+      print('@@ form BackEnd titleNoti = $titleNoti, bodyNoti = $bodyNoti');
+      // processShowLocalNoti();
+    });
+  }
+
+  Future<void> processShowLocalNoti() async {
+    print('@@ processShowNoti Work');
+    AndroidNotificationDetails androidNotificationDetails =
+        AndroidNotificationDetails(
+      'channelId',
+      'channelName',
+      priority: Priority.high,
+      importance: Importance.max,
+      ticker: 'ticker',
+    );
+
+    NotificationDetails notificationDetails =
+        NotificationDetails(android: androidNotificationDetails);
+    await flutterLocalNotificationPlugin.show(
+        0, 'titleNoti', 'bodyNoti', notificationDetails);
   }
 
   Future<Null> checkStatus() async {
@@ -36,7 +110,16 @@ class _AuthenticationState extends State<Authentication> {
           (event) async {
             if (event != null) {
               String uid = event.uid;
-              // print('uid = $uid');
+
+              Map<String, dynamic> map = {};
+              map['token'] = token;
+
+              await FirebaseFirestore.instance
+                  .collection('userTable')
+                  .doc(uid)
+                  .update(map)
+                  .then((value) => print('Update Token Success'));
+
               FirebaseFirestore.instance
                   .collection('userTable')
                   .doc(uid)
@@ -95,11 +178,12 @@ class _AuthenticationState extends State<Authentication> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Container(width: screens*0.4,
+                    Container(
+                        width: screens * 0.4,
                         child: Image.asset(
-                      'images/logo.png',
-                      width: screens*0.4,
-                    )),
+                          'images/logo.png',
+                          width: screens * 0.4,
+                        )),
                     emailForm(),
                     prasswordForm(),
                     loginButton(),
@@ -341,7 +425,7 @@ class _AuthenticationState extends State<Authentication> {
     return Container(
       height: 45,
       margin: EdgeInsets.only(top: 15),
-      width: screens*0.7,
+      width: screens * 0.7,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           primary: Colors.red,
@@ -444,7 +528,7 @@ class _AuthenticationState extends State<Authentication> {
   }
 
   Widget emailForm() => Container(
-        width: MediaQuery.of(context).size.width*0.85,
+        width: MediaQuery.of(context).size.width * 0.85,
         margin: EdgeInsets.only(top: 10),
         child: TextField(
           keyboardType: TextInputType.emailAddress,

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_beng_queue_app/model/user_model.dart';
 import 'package:flutter_application_beng_queue_app/screens/user/accountUser.dart';
@@ -8,6 +9,8 @@ import 'package:flutter_application_beng_queue_app/screens/user/navbar/historyUs
 import 'package:flutter_application_beng_queue_app/screens/user/navbar/notificationUser.dart';
 import 'package:flutter_application_beng_queue_app/screens/user/navbar/qrCodeUser.dart';
 import 'package:flutter_application_beng_queue_app/screens/user/navbar/storeUser.dart';
+import 'package:flutter_application_beng_queue_app/utility/dialog.dart';
+import 'package:flutter_application_beng_queue_app/utility/my_notification.dart';
 import 'package:flutter_application_beng_queue_app/utility/my_style.dart';
 
 class UserNVA extends StatefulWidget {
@@ -16,6 +19,8 @@ class UserNVA extends StatefulWidget {
 }
 
 class _UserNVAState extends State<UserNVA> {
+  String titleNoti, bodyNoti;
+
   List<Widget> listWidgets = [
     StoreUser(),
     QrCodeUser(),
@@ -30,6 +35,27 @@ class _UserNVAState extends State<UserNVA> {
   void initState() {
     super.initState();
     readUidLogin();
+    forNotification();
+  }
+
+  Future<void> forNotification() async {
+    // for FontEnd Service
+    FirebaseMessaging.onMessage.listen((event) {
+      String titleNoti = event.notification.title;
+      String bodyNoti = event.notification.body;
+      print(
+          '@@ from FontEnd user titleNoti = $titleNoti, bodyNoti = $bodyNoti');
+      normalDialog(context, '$titleNoti \n $bodyNoti');
+    });
+
+    // for BackEnd Service
+    FirebaseMessaging.onMessageOpenedApp.listen((event) {
+      String titleNoti = event.notification.title;
+      String bodyNoti = event.notification.body;
+      print(
+          '@@ form BackEnd user titleNoti = $titleNoti, bodyNoti = $bodyNoti');
+           normalDialog(context, '$titleNoti \n $bodyNoti');
+    });
   }
 
   Future<Null> readUidLogin() async {

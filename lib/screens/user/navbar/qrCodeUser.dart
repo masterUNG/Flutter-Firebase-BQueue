@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -14,8 +16,8 @@ class QrCodeUser extends StatefulWidget {
 }
 
 class _QrCodeUserState extends State<QrCodeUser> {
-  String scanresult;
 
+  String scanresult;
   final qrKey = GlobalKey(debugLabel: 'QR');
   Barcode result;
   QRViewController qrViewController;
@@ -23,7 +25,11 @@ class _QrCodeUserState extends State<QrCodeUser> {
   @override
   void reassemble() {
     super.reassemble();
-    qrViewController.pauseCamera();
+    if (Platform.isAndroid) {
+      qrViewController.pauseCamera();
+    } else if (Platform.isIOS) {
+      qrViewController.resumeCamera();
+    }
   }
 
   @override

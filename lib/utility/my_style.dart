@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_beng_queue_app/screens/authentication.dart';
 
 class MyStyle {
+  
   Widget showProgress() => Center(child: CircularProgressIndicator());
 
   Container showLogo() {
