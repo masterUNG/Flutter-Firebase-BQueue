@@ -16,8 +16,11 @@ class ListQueueUser extends StatefulWidget {
 
 class _ListQueueUserState extends State<ListQueueUser> {
   var queruModels = <QueueModel>[];
+  var queruModelSorts = <QueueModel>[];
   var load = true;
   var haveQueue = false; // false => No Queue
+
+  var times = <Timestamp>[];
 
   @override
   void initState() {
@@ -50,17 +53,30 @@ class _ListQueueUserState extends State<ListQueueUser> {
                 .then((value) {
               for (var item in value.docs) {
                 QueueModel queueModel = QueueModel.fromMap(item.data());
+
+                print('times ==> ${queueModel.time}');
+
                 if (queueModel.uidUser == uidUserLogined) {
                   if (!queueModel.queueStatus) {
-                    setState(() {
-                      haveQueue = true;
-                      queruModels.add(queueModel);
-                      print('haveQueu ==>> $haveQueue');
-                    });
+                    queruModels.add(queueModel);
+                    times.add(queueModel.time);
                   }
                 }
               }
             });
+          }
+
+          times.sort();
+
+          for (var time in times) {
+            for (var model in queruModels) {
+              if (time == model.time) {
+                setState(() {
+                  haveQueue = true;
+                  queruModelSorts.add(model);
+                });
+              }
+            }
           }
         });
       });
@@ -77,19 +93,26 @@ class _ListQueueUserState extends State<ListQueueUser> {
                   itemCount: queruModels.length,
                   itemBuilder: (context, index) => GestureDetector(
                     onTap: () {
-                      print('You Click Index => $index');
                       Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (context) => DetailQueueForUser(
-                              queueModel: queruModels[index]),
+                            queueModel: queruModelSorts[index],
+                            sumQueue: queruModels.length,
+                          ),
                         ),
                       );
                     },
                     child: Card(
                         child: Padding(
                       padding: const EdgeInsets.all(16.0),
-                      child: Text(changeTimeToString(queruModels[index].time)),
+                      child:
+                          Column(crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(changeTimeToString(queruModelSorts[index].time)),
+                              Text(queruModelSorts[index].nameUser),
+                            ],
+                          ),
                     )),
                   ),
                 )

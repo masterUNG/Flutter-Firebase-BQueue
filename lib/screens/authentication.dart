@@ -7,6 +7,7 @@ import 'package:flutter_application_beng_queue_app/model/user_model.dart';
 import 'package:flutter_application_beng_queue_app/screens/restaurant/index_restaurant_nav.dart';
 import 'package:flutter_application_beng_queue_app/screens/user/indexUserNav.dart';
 import 'package:flutter_application_beng_queue_app/screens/register.dart';
+import 'package:flutter_application_beng_queue_app/screens/user/navbar/screens/forgot_password.dart';
 import 'package:flutter_application_beng_queue_app/utility/dialog.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
@@ -190,6 +191,10 @@ class _AuthenticationState extends State<Authentication> {
                     signinWithGoogle(),
                     // signinWithFacebook(),
                     textRegister(),
+                    TextButton(
+                      onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => ForgotPassword(),)),
+                      child: Text('Forgot Password'),
+                    ),
                   ],
                 ),
               ),
@@ -199,6 +204,8 @@ class _AuthenticationState extends State<Authentication> {
       ),
     );
   }
+
+  
 
   Widget signinWithFacebook() {
     return Container(
